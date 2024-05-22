@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
-
+const cors = require('cors')
 
 app.use(express.json())
+
+app.use(cors())
 
 const Usuario = require('./models/Usuario')
 const Cursos = require('./models/Cursos')
