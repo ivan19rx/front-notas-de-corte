@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const listUsuarios = () => {
+const ListUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
@@ -19,17 +19,30 @@ const listUsuarios = () => {
       });
   }, []);
 
-
   return (
     <div>
-      {usuarios.map((usuario) => (
-        <div key={usuario.id}>
-          <p>Email: {usuario.email}</p>
-          <p>Nível de Acesso: {usuario.nivelacesso}</p>
-        </div>
-      ))}
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Email</th>
+            <th scope="col">Senha</th>
+            <th scope="col">Nível de Acesso</th>
+          </tr>
+        </thead>
+        <tbody>
+          {usuarios.map((usuario) => (
+            <tr key={usuario.id}>
+              <td>{usuario.nome}</td>
+              <td>{usuario.email}</td>
+              <td>{usuario.senha}</td>
+              <td>{usuario.nivelacesso}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  )
-}
+  );
+};
 
-export default listUsuarios
+export default ListUsuarios;
