@@ -1,15 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-import './Template.css'
+import React, { useState } from 'react';
+import './Template.css';
 
 import ListUsuarios from '../components/listUsuarios';
 import ListCursos from '../components/listCursos';
 import CadCurso from '../components/cadCurso';
-
+import CadUsuario from '../components/cadUsuario';
 
 function App() {
+  const [selectedComponent, setSelectedComponent] = useState('ListUsuarios');
 
+  const handleMenuClick = (componentName) => {
+    setSelectedComponent(componentName);
+  };
+
+  const renderSelectedComponent = () => {
+    switch (selectedComponent) {
+      case 'ListUsuarios':
+        return <ListUsuarios />;
+      case 'ListCursos':
+        return <ListCursos />;
+      case 'CadCurso':
+        return <CadCurso />;
+      case 'CadUsuario':
+        return <CadUsuario />;
+      default:
+        return <p>olá, seja bem vindo a dashboard</p>;
+    }
+  };
 
   return (
     <>
@@ -25,13 +42,16 @@ function App() {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav me-auto mb-2 mb-md-0">
               <li className="nav-item">
-                <a className="nav-link " aria-current="page" href="/dashboard">Home</a>
+                <button className={`nav-link btn ${selectedComponent === 'ListUsuarios' ? 'active' : ''}`} onClick={() => handleMenuClick('ListUsuarios')}>Lista de usuários</button>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="/list-usuarios">Lista de usuários</a>
+                <button className={`nav-link btn ${selectedComponent === 'ListCursos' ? 'active' : ''}`} onClick={() => handleMenuClick('ListCursos')}>Lista de cursos</button>
               </li>
               <li className="nav-item">
-                <a className="nav-link " href="/list-cursos" tabIndex="-1" aria-disabled="true">Lista de cursos</a>
+                <button className={`nav-link btn ${selectedComponent === 'CadCurso' ? 'active' : ''}`} onClick={() => handleMenuClick('CadCurso')}>Cadastrar curso</button>
+              </li>
+              <li className="nav-item">
+                <button className={`nav-link btn ${selectedComponent === 'CadUsuario' ? 'active' : ''}`} onClick={() => handleMenuClick('CadUsuario')}>Cadastrar usuário</button>
               </li>
             </ul>
           </div>
@@ -40,7 +60,7 @@ function App() {
 
       <main className="container">
         <div className="bg-light p-5 rounded">
-          <ListUsuarios />
+          {renderSelectedComponent()}
         </div>
       </main>
     </>

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function CourseForm() {
+function CoursoForm() {
     const [name, setName] = useState('');
     const [cutoff, setCutoff] = useState('');
 
@@ -43,4 +43,4 @@ function CourseForm() {
     );
 }
 
-export default CourseForm;
+export default CoursoForm;
