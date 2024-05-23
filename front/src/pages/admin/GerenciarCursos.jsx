@@ -6,7 +6,7 @@ import ListCursos from '../../components/admin/listCursos';
 import CadCurso from '../../components/admin/cadCurso';
 import CadUsuario from '../../components/admin/cadUsuario';
 
-function GerenciarUsuarios() {
+function GerenciarCursos() {
 
 
 
@@ -33,22 +33,21 @@ function GerenciarUsuarios() {
                     </div>
                 </div>
             </nav>
-            <h4 className='text-center'>Cadastrar usuário</h4>
-
+            <h4 className='text-center'>Cadastrar curso</h4>
             <section className="container mb-5">
                 <div className="bg-light p-5 rounded">
-                    <CadUsuario />
+                    <CadCurso />
                 </div>
             </section>
-            <h4 className='text-center'>Gerenciar usuários cadastrados</h4>
 
+            <h4 className='text-center'>Gerenciar cursos cadastrados</h4>
             <section className="container">
                 <div className="bg-light p-5 rounded">
-                    <ListUsuarios />
+                    <ListCursos />
                 </div>
             </section>
         </>
     );
 }
 
-export default GerenciarUsuarios;
+export default GerenciarCursos;

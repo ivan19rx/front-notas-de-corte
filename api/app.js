@@ -10,6 +10,7 @@ const Usuario = require('./models/Usuario')
 const Cursos = require('./models/Cursos')
 
 const db = require('./models/db')
+const { where } = require('sequelize')
 
 app.get('/', (req, res) => {
     res.send('funcionando')
@@ -29,6 +30,16 @@ app.get('/list-usuarios', async (req, res) => {
             mensagem: "erro ao buscar dados",
         });
     });
+})
+
+app.get('/get-usuario/:id', async (req, res) => {
+
+    await Usuario.findOne({ where: { id: req.params.id } }).then((data) => {
+        return res.status(200).json(data)
+    }).catch( () => {
+        return res.status(400).json({msg: "ocorreu algum erro"})
+    }
+    )
 })
 
 

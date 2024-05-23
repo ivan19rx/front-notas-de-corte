@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import EditUsuario from './editUsuario';
 
 const ListUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
+  const [editUserId, setEditUserId] = useState(null); // Estado para controlar o ID do usuário em edição
 
   useEffect(() => {
     axios.get('http://localhost:8080/list-usuarios')
@@ -20,6 +21,14 @@ const ListUsuarios = () => {
         console.error('Erro ao buscar dados:', error);
       });
   }, []);
+
+  const handleEdit = (userId) => {
+    setEditUserId(userId); // Define o ID do usuário em edição
+  };
+
+  const handleCloseEdit = () => {
+    setEditUserId(null); // Limpa o ID do usuário em edição
+  };
 
   return (
     <div>
@@ -40,12 +49,17 @@ const ListUsuarios = () => {
               <td>{usuario.email}</td>
               <td>{usuario.senha}</td>
               <td>{usuario.nivelacesso}</td>
-              <td><button className="btn btn-primary"><FaEdit /></button>
-                <button className="btn btn-danger"><FaTrash /></button></td>
+              <td>
+                <button className="btn btn-primary" onClick={() => handleEdit(usuario.id)}><FaEdit /></button>
+                <button className="btn btn-danger"><FaTrash /></button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Mostra o componente de edição se o editUserId estiver definido */}
+      {editUserId && <EditUsuario usuarioId={editUserId} onClose={handleCloseEdit} />}
     </div>
   );
 };

@@ -19,28 +19,38 @@ function CoursoForm() {
             setName('');
             setCutoff('');
             console.log('Resposta da API:', response.data);
+            window.location.reload();
         } catch (error) {
             console.error('Erro ao enviar requisição:', error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Nome do curso"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-            <input
-                type="number"
-                placeholder="Nota de corte"
-                value={cutoff}
-                onChange={(e) => setCutoff(e.target.value)}
-            />
-            <button type="submit">Enviar</button>
+        <form className='form' onSubmit={handleSubmit}>
+            <div className="row">
+                <div className="col-md-6 offset-md-3">
+                    <input
+                        className='form-control'
+                        type="text"
+                        placeholder="Nome do curso"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <br />
+                    <input
+                        className='form-control'
+                        type="number"
+                        placeholder="Nota de corte"
+                        value={cutoff}
+                        onChange={(e) => setCutoff(e.target.value)}
+                    />
+                    <br />
+                    <button className='mt-2 btn btn-primary btn-block' type="submit">Enviar</button> {/* btn-block para ocupar a largura do pai */}
+                </div>
+            </div>
         </form>
     );
+
 }
 
 export default CoursoForm;
