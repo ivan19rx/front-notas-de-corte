@@ -45,6 +45,7 @@ const ListUsuarios = () => {
       <table className="table">
         <thead>
           <tr>
+            <td>Id</td>
             <th scope="col">Nome</th>
             <th scope="col">Email</th>
             <th scope="col">Senha</th>
@@ -55,6 +56,7 @@ const ListUsuarios = () => {
         <tbody>
           {usuarios.map((usuario) => (
             <tr key={usuario.id}>
+              <td>{usuario.id}</td>
               <td>{usuario.nome}</td>
               <td>{usuario.email}</td>
               <td>{usuario.senha}</td>
