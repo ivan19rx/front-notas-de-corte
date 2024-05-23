@@ -7,7 +7,7 @@ const ListUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [editUserId, setEditUserId] = useState(null); // Estado para controlar o ID do usuário em edição
 
-  useEffect(() => {
+  const fetchUsuarios = () => {
     axios.get('http://localhost:8080/list-usuarios')
       .then(response => {
         const data = response.data;
@@ -20,6 +20,10 @@ const ListUsuarios = () => {
       .catch(error => {
         console.error('Erro ao buscar dados:', error);
       });
+  };
+
+  useEffect(() => {
+    fetchUsuarios();
   }, []);
 
   const handleEdit = (userId) => {
@@ -28,14 +32,15 @@ const ListUsuarios = () => {
 
   const handleCloseEdit = () => {
     setEditUserId(null); // Limpa o ID do usuário em edição
+    fetchUsuarios()
   };
 
   const handleDelete = (id) => {
     try {
       axios.delete(`http://localhost:8080/delete-usuario/${id}`).then(() => {
-        window.location.reload()
+        fetchUsuarios()
       })
-    } catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }

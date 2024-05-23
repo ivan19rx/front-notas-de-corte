@@ -13,9 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route path='/login' element={<Login/>} />
-        <Route path='/dashboard' element={<App/>}/>
-        <Route path='/dashboard/gerenciar-usuarios' element={<GerenciarUsuarios/>}/>
-        <Route path='/dashboard/gerenciar-cursos' element={<GerenciarCursos/>}/>
+        <Route path='/' element={<App/>}/>
+        <Route path='/admin/gerenciar-usuarios' element={<GerenciarUsuarios/>}/>
+        <Route path='/admin/gerenciar-cursos' element={<GerenciarCursos/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

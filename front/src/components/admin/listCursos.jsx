@@ -7,7 +7,7 @@ const ListCursos = () => {
   const [cursos, setCursos] = useState([]);
   const [editCursoId, setEditCursoId] = useState(null); // Estado para controlar o ID do curso em edição
 
-  useEffect(() => {
+  const fetchCursos = () => {
     axios.get('http://localhost:8080/list-cursos')
       .then(response => {
         const data = response.data;
@@ -20,20 +20,26 @@ const ListCursos = () => {
       .catch(error => {
         console.error('Erro ao buscar dados:', error);
       });
+  };
+
+  useEffect(() => {
+    fetchCursos();
   }, []);
 
   const handleEdit = (cursoId) => {
     setEditCursoId(cursoId); // Define o ID do curso em edição
+    fetchCursos()
   };
 
   const handleCloseEdit = () => {
     setEditCursoId(null); // Limpa o ID do curso em edição
+    fetchCursos()
   };
 
   const handleDelete = (id) => {
     try {
       axios.delete(`http://localhost:8080/delete-curso/${id}`).then(() => {
-        window.location.reload()
+        fetchCursos()
       })
     } catch (err) {
       console.log(err)

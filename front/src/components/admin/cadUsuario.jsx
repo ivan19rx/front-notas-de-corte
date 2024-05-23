@@ -3,11 +3,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 function UsuarioForm() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [accessLevel, setAccessLevel] = useState(1);
+
+    
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +30,9 @@ function UsuarioForm() {
             setSenha('');
             setAccessLevel(1);
             console.log('Resposta da API:', response.data);
-            window.location.reload();
+            window.location.reload()
+            
+            
 
         } catch (error) {
             console.error('Erro ao enviar requisição:', error);
