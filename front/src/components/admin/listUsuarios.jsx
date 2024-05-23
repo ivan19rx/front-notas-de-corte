@@ -35,8 +35,8 @@ const ListUsuarios = () => {
       axios.delete(`http://localhost:8080/delete-usuario/${id}`).then(() => {
         window.location.reload()
       })
-    } catch (error) {
-
+    } catch(err) {
+      console.log(err)
     }
   }
 

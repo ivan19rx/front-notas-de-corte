@@ -36,8 +36,8 @@ app.get('/get-usuario/:id', async (req, res) => {
 
     await Usuario.findOne({ where: { id: req.params.id } }).then((data) => {
         return res.status(200).json(data)
-    }).catch( () => {
-        return res.status(400).json({msg: "ocorreu algum erro"})
+    }).catch(() => {
+        return res.status(400).json({ msg: "ocorreu algum erro" })
     }
     )
 })
@@ -114,6 +114,16 @@ app.get('/list-cursos', async (req, res) => {
             mensagem: "erro ao buscar dados",
         });
     });
+})
+
+app.get('/get-curso/:id', async (req, res) => {
+
+    await Cursos.findOne({ where: { id: req.params.id } }).then((data) => {
+        return res.status(200).json(data)
+    }).catch(() => {
+        return res.status(400).json({ msg: "ocorreu algum erro" })
+    }
+    )
 })
 
 app.post('/cad-curso', async (req, res) => {

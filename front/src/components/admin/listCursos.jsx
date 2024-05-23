@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaEdit,FaTrash  } from 'react-icons/fa'; // Importando o ícone de edição do React Icons
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import EditCurso from './editCurso'; // Importe o componente EditCurso
 
 const ListCursos = () => {
   const [cursos, setCursos] = useState([]);
+  const [editCursoId, setEditCursoId] = useState(null); // Estado para controlar o ID do curso em edição
 
   useEffect(() => {
     axios.get('http://localhost:8080/list-cursos')
@@ -19,6 +21,25 @@ const ListCursos = () => {
         console.error('Erro ao buscar dados:', error);
       });
   }, []);
+
+  const handleEdit = (cursoId) => {
+    setEditCursoId(cursoId); // Define o ID do curso em edição
+  };
+
+  const handleCloseEdit = () => {
+    setEditCursoId(null); // Limpa o ID do curso em edição
+  };
+
+  const handleDelete = (id) => {
+    try {
+      axios.delete(`http://localhost:8080/delete-curso/${id}`).then(() => {
+        window.location.reload()
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
 
   return (
     <div>
@@ -36,13 +57,16 @@ const ListCursos = () => {
               <td>{curso.nome}</td>
               <td>{curso.notaDeCorte}</td>
               <td>
-                <button className="btn btn-primary"><FaEdit /></button>
-                <button className="btn btn-danger"><FaTrash /></button>
+                <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
+                <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Mostra o componente de edição se o editCursoId estiver definido */}
+      {editCursoId && <EditCurso cursoId={editCursoId} onClose={handleCloseEdit} />}
     </div>
   );
 }
