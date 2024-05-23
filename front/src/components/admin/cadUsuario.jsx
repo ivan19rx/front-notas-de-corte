@@ -51,9 +51,9 @@ function UsuarioForm() {
                 onChange={(e) => setSenha(e.target.value)}
             />
             <select value={accessLevel} onChange={(e) => setAccessLevel(parseInt(e.target.value))}>
-                <option value={1}>Nível de Acesso 1</option>
-                <option value={2}>Nível de Acesso 2</option>
-                <option value={3}>Nível de Acesso 3</option>
+                <option value={1}>Cliente</option>
+                <option value={2}>Colaborador</option>
+                <option value={3}>Admin</option>
             </select>
             <button type="submit">Enviar</button>
         </form>

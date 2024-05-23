@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import { FaEdit, FaTrash } from 'react-icons/fa';
+
 const ListUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
 
@@ -28,6 +30,7 @@ const ListUsuarios = () => {
             <th scope="col">Email</th>
             <th scope="col">Senha</th>
             <th scope="col">Nível de Acesso</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +40,8 @@ const ListUsuarios = () => {
               <td>{usuario.email}</td>
               <td>{usuario.senha}</td>
               <td>{usuario.nivelacesso}</td>
+              <td><button className="btn btn-primary"><FaEdit /></button>
+                <button className="btn btn-danger"><FaTrash /></button></td>
             </tr>
           ))}
         </tbody>

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './Template.css';
 
 import ListUsuarios from '../components/listUsuarios';
-import ListCursos from '../components/listCursos';
-import CadCurso from '../components/cadCurso';
-import CadUsuario from '../components/cadUsuario';
+import ListCursos from '../components/admin/listCursos';
+import CadCurso from '../components/admin/cadCurso';
+import CadUsuario from '../components/admin/cadUsuario';
 
 function App() {
   const [selectedComponent, setSelectedComponent] = useState('ListUsuarios');
@@ -42,10 +42,10 @@ function App() {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav me-auto mb-2 mb-md-0">
               <li className="nav-item">
-                <button className={`nav-link btn ${selectedComponent === 'ListUsuarios' ? 'active' : ''}`} onClick={() => handleMenuClick('ListUsuarios')}>Lista de usuários</button>
+                <button className={`nav-link btn ${selectedComponent === 'ListUsuarios' ? 'active' : ''}`} onClick={() => handleMenuClick('ListUsuarios')}>Gerenciar usuários</button>
               </li>
               <li className="nav-item">
-                <button className={`nav-link btn ${selectedComponent === 'ListCursos' ? 'active' : ''}`} onClick={() => handleMenuClick('ListCursos')}>Lista de cursos</button>
+                <button className={`nav-link btn ${selectedComponent === 'ListCursos' ? 'active' : ''}`} onClick={() => handleMenuClick('ListCursos')}>Gerenciar cursos</button>
               </li>
               <li className="nav-item">
                 <button className={`nav-link btn ${selectedComponent === 'CadCurso' ? 'active' : ''}`} onClick={() => handleMenuClick('CadCurso')}>Cadastrar curso</button>
