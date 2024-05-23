@@ -46,6 +46,7 @@ const ListCursos = () => {
       <table className="table">
         <thead>
           <tr>
+            <th scope='col'>Id</th>
             <th scope="col">Nome</th>
             <th scope="col">Nota de corte</th>
             <th scope="col">Ações</th>
@@ -54,6 +55,7 @@ const ListCursos = () => {
         <tbody>
           {cursos.map((curso) => (
             <tr key={curso.id}>
+              <td>{curso.id}</td>
               <td>{curso.nome}</td>
               <td>{curso.notaDeCorte}</td>
               <td>

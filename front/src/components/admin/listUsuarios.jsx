@@ -45,7 +45,7 @@ const ListUsuarios = () => {
       <table className="table">
         <thead>
           <tr>
-            <td>Id</td>
+            <th scope='col'>Id</th>
             <th scope="col">Nome</th>
             <th scope="col">Email</th>
             <th scope="col">Senha</th>
