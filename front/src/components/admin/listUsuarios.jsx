@@ -30,6 +30,16 @@ const ListUsuarios = () => {
     setEditUserId(null); // Limpa o ID do usuário em edição
   };
 
+  const handleDelete = (id) => {
+    try {
+      axios.delete(`http://localhost:8080/delete-usuario/${id}`).then(() => {
+        window.location.reload()
+      })
+    } catch (error) {
+
+    }
+  }
+
   return (
     <div>
       <table className="table">
@@ -51,7 +61,7 @@ const ListUsuarios = () => {
               <td>{usuario.nivelacesso}</td>
               <td>
                 <button className="btn btn-primary" onClick={() => handleEdit(usuario.id)}><FaEdit /></button>
-                <button className="btn btn-danger"><FaTrash /></button>
+                <button className="btn btn-danger" onClick={() => handleDelete(usuario.id)}><FaTrash /></button>
               </td>
             </tr>
           ))}
