@@ -6,11 +6,13 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom'
 
 import GerenciarUsuarios from './pages/admin/GerenciarUsuarios.jsx'
 import GerenciarCursos from './pages/admin/GerenciarCursos.jsx'
+import Login from './pages/login/Login.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        <Route path='/login' element={<Login/>} />
         <Route path='/dashboard' element={<App/>}/>
         <Route path='/dashboard/gerenciar-usuarios' element={<GerenciarUsuarios/>}/>
         <Route path='/dashboard/gerenciar-cursos' element={<GerenciarCursos/>}/>
