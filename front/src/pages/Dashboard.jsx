@@ -34,7 +34,7 @@ function App() {
         </div>
       </nav>
 
-      <section className="container">
+      <section className="container mt-5">
         <div className="bg-light p-5 rounded">
           <h1>Olá, Seja Bem Vindo a dashboard</h1>
         </div>

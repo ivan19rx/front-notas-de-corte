@@ -66,8 +66,7 @@ function UsuarioForm() {
                     /> <br></br>
                     <select className='form-control' value={accessLevel} onChange={(e) => setAccessLevel(parseInt(e.target.value))}>
                         <option value={1}>Cliente</option>
-                        <option value={2}>Colaborador</option>
-                        <option value={3}>Admin</option>
+                        <option value={2}>Admin</option>
                     </select>  <br></br>
                     <button className='btn btn-primary mt-2' type="submit">Enviar</button>
                 </div>

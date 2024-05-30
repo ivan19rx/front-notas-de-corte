@@ -72,8 +72,7 @@ function EditUsuario({ usuarioId, onClose }) {
                         onChange={(e) => setAccessLevel(parseInt(e.target.value))}
                     >
                         <option value={1}>Cliente</option>
-                        <option value={2}>Colaborador</option>
-                        <option value={3}>Admin</option>
+                        <option value={2}>Admin</option>
                     </select> <br />
                     <button className='btn btn-primary mt-2' type="submit">Salvar</button>
                     <button className='btn btn-secondary mt-2 ms-2' onClick={onClose}>Cancelar</button>

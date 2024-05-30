@@ -7,6 +7,8 @@ const ListCursos = () => {
   const [cursos, setCursos] = useState([]);
   const [editCursoId, setEditCursoId] = useState(null); // Estado para controlar o ID do curso em edição
 
+  const [accessLevel, setAccessLevel] = useState(null);
+
   const fetchCursos = () => {
     axios.get('http://localhost:8080/list-cursos')
       .then(response => {
@@ -24,6 +26,10 @@ const ListCursos = () => {
 
   useEffect(() => {
     fetchCursos();
+
+    // Busque o nível de acesso do localStorage quando o componente for montado
+    const userAccessLevel = localStorage.getItem('accessLevel');
+    setAccessLevel(userAccessLevel);
   }, []);
 
   const handleEdit = (cursoId) => {
