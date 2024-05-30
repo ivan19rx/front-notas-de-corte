@@ -59,17 +59,15 @@ const ListCursos = () => {
         
         <thead>
           <tr>
-            <th scope='col'>Id</th>
             <th scope="col">Nome</th>
             <th scope='col'>Faculdade</th>
             <th scope="col">Nota de corte</th>
-            {userRole === 'Admin' && <th scope="col">Ações</th>} {/* Renderize condicionalmente a coluna Ações */}
+            {userRole === 'Admin' && <th scope="col">Ações</th>}
           </tr>
         </thead>
         <tbody>
           {cursos.map((curso) => (
             <tr key={curso.id}>
-              <td>{curso.id}</td>
               <td>{curso.nome}</td>
               <td>{curso.faculdade}</td>
               <td>{curso.notaDeCorte}</td>

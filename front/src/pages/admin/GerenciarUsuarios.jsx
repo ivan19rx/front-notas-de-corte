@@ -8,6 +8,14 @@ import CadCurso from '../../components/admin/cadCurso';
 import CadUsuario from '../../components/admin/cadUsuario';
 
 function GerenciarUsuarios() {
+
+    function logOut() {
+        const confirmLogout = window.confirm('Você está prestes a fazer logout do sistema. Deseja continuar?');
+        if (confirmLogout) {
+            localStorage.clear();
+            window.location.reload();
+        }
+    }
     return (
         <>
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -27,11 +35,14 @@ function GerenciarUsuarios() {
                                 <Link className='nav-link btn' to='/admin/gerenciar-cursos'>Gerenciar cursos</Link>
                             </li>
                         </ul>
+                        <li className="nav-item">
+                            <button onClick={logOut} >Sair</button>
+                        </li>
                     </div>
                 </div>
             </nav>
             <h4 className='text-center'>Cadastrar usuário</h4>
-    
+
             <section className="container mb-5">
                 <div className="bg-light p-5 rounded">
                     <CadUsuario />

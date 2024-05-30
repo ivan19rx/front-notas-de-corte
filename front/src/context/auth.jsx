@@ -1,11 +1,15 @@
 import { createContext, useEffect, useState } from 'react'
 import { api } from "../services/api"
 import axios from 'axios'
+import { useNavigate, Navigate } from 'react-router-dom'
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const loadingStorageData = async () => {
@@ -42,6 +46,24 @@ export const AuthProvider = ({ children }) => {
 
 
     };
+    const signUp = async ({ nome, email, senha }) => {
+        try {
+            const response = await api.post("/register", { nome, email, senha });
+            if (response.data.erro) {
+                alert("ocorreu algum erro");
+            } else {
+                navigate('/login');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const singOut = () => {
+        localStorage.clear();
+        setUser(null);
+        return navigate('/login')
+    };
 
 
 
@@ -50,7 +72,9 @@ export const AuthProvider = ({ children }) => {
             {
                 user,
                 signed: !!user,
-                signIn
+                signIn,
+                signUp,
+                singOut
             }
         }>
             {children}

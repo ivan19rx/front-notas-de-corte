@@ -56,7 +56,7 @@ function CoursoForm() {
                         onChange={(e) => setCutoff(e.target.value)}
                     />
                     <br />
-                    <button className='mt-2 btn btn-primary btn-block' type="submit">Enviar</button> {/* btn-block para ocupar a largura do pai */}
+                    <button className='mt-2 btn btn-primary btn-block' type="submit">Cadastrar</button> {/* btn-block para ocupar a largura do pai */}
                 </div>
             </div>
         </form>

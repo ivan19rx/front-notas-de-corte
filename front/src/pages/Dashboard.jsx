@@ -11,6 +11,16 @@ import { Alert } from 'react-bootstrap';
 function App() {
   const [userRole, setUserRole] = useState(null); // Adicione este estado
 
+  function logOut() {
+    const confirmLogout = window.confirm('Você está prestes a fazer logout do sistema. Deseja continuar?');
+    if (confirmLogout) {
+      localStorage.clear();
+      window.location.reload();
+    }
+  }
+
+
+
   useEffect(() => {
     // Busque o papel do usuário do localStorage quando o componente for montado
     const user = JSON.parse(localStorage.getItem('@Auth:user'));
@@ -41,6 +51,9 @@ function App() {
                 </>
               )}
             </ul>
+            <li className="nav-item">
+              <button onClick={logOut} >Sair</button>
+            </li>
           </div>
         </div>
       </nav>
@@ -50,7 +63,7 @@ function App() {
         <div className="bg-light p-5 rounded">
           {userRole === 'Admin' && (
             <Alert variant="alert">
-              Olá, você é um admin, aqui você pode cadastrar novos admins e também novos cursos a serem exibidos na dashboard de nossos usuários
+              Olá, você é um admin, aqui você pode cadastrar novos admins e também gerenciar os cursos a serem exibidos na dashboard de nossos usuários
             </Alert>
           )}
           {userRole === 'Cliente' && (

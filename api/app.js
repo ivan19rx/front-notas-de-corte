@@ -40,7 +40,7 @@ app.post('/login', async (req, res) => {
         });
     }
 
-    if(req.body.senha != usuario.senha) {
+    if (req.body.senha != usuario.senha) {
         return res.status(400).json({
             erro: true,
             msg: "Erro: senha incorreta"
@@ -71,6 +71,35 @@ app.post('/login', async (req, res) => {
             msg: "ocorreu um erro no servidor"
         })
     }
+})
+
+app.post("/register", async (req, res) => {
+    const existingUsuario = await Usuario.findOne({ where: { email: req.body.email } });
+
+    if (existingUsuario) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Já existe um usuario cadastrado com este email!",
+        });
+    }
+
+    if (!req.body.nivelacesso) {
+        req.body.nivelacesso = 'Cliente'; // Defina o valor padrão aqui
+    }
+
+
+    await Usuario.create(req.body).then(() => {
+        return res.status(200).json({
+            erro: false,
+            mensagem: "Usuario cadastrado com sucesso!",
+        });
+    })
+        .catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Usuario não cadastrado com sucesso!",
+            });
+        });
 })
 
 //rotas do admin
@@ -111,7 +140,7 @@ app.post('/cad-usuario', async (req, res) => {
         });
     }
 
-    
+
 
 
     await Usuario.create(req.body).then(() => {
