@@ -10,7 +10,9 @@ import CadUsuario from '../../components/admin/cadUsuario';
 function GerenciarUsuarios() {
 
     function logOut() {
-        const confirmLogout = window.confirm('Você está prestes a fazer logout do sistema. Deseja continuar?');
+        const user = JSON.parse(localStorage.getItem('@Auth:user'));
+        let nome = user.nome
+        const confirmLogout = window.confirm(nome + ", Você está prestes a fazer logout do sistema! Deseja continuar?");
         if (confirmLogout) {
             localStorage.clear();
             window.location.reload();

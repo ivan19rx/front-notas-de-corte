@@ -10,12 +10,14 @@ import CadUsuario from '../../components/admin/cadUsuario';
 function GerenciarCursos() {
 
     function logOut() {
-        const confirmLogout = window.confirm('Você está prestes a fazer logout do sistema. Deseja continuar?');
+        const user = JSON.parse(localStorage.getItem('@Auth:user'));
+        let nome = user.nome
+        const confirmLogout = window.confirm(nome + ", Você está prestes a fazer logout do sistema! Deseja continuar?");
         if (confirmLogout) {
-            localStorage.clear();
-            window.location.reload();
+          localStorage.clear();
+          window.location.reload();
         }
-    }
+      }
     return (
         <>
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
