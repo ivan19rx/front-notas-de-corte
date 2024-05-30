@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditUsuario from './editUsuario';
+import { api } from '../../services/api';
 
 const ListUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [editUserId, setEditUserId] = useState(null); // Estado para controlar o ID do usuário em edição
 
   const fetchUsuarios = () => {
-    axios.get('http://localhost:8080/list-usuarios')
+    api.get('/list-usuarios')
       .then(response => {
         const data = response.data;
         if (!data.erro) {

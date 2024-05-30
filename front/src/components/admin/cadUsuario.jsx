@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { api } from '../../services/api';
 
 
 function UsuarioForm() {
@@ -18,7 +19,7 @@ function UsuarioForm() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:8080/cad-usuario', {
+            const response = await api.post('/cad-usuario', {
                 nome: name,
                 email: email,
                 senha: senha,

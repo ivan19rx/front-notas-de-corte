@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { api } from '../../services/api';
 
 function EditUsuario({ usuarioId, onClose }) {
     const [name, setName] = useState('');
@@ -9,7 +10,7 @@ function EditUsuario({ usuarioId, onClose }) {
 
     useEffect(() => {
         // Recuperar as informações do usuário para edição
-        axios.get(`http://localhost:8080/get-usuario/${usuarioId}`)
+        api.get(`/get-usuario/${usuarioId}`)
             .then(response => {
                 const usuario = response.data;
                 setName(usuario.nome);
@@ -27,7 +28,7 @@ function EditUsuario({ usuarioId, onClose }) {
 
         try {
             // Enviar solicitação para atualizar o usuário
-            await axios.put(`http://localhost:8080/edit-usuario/${usuarioId}`, {
+            await api.put(`/edit-usuario/${usuarioId}`, {
                 nome: name,
                 email: email,
                 senha: senha,

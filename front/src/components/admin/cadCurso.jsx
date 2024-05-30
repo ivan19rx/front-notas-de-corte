@@ -1,6 +1,7 @@
 // CourseForm.js
 
 import React, { useState } from 'react';
+import { api } from '../../services/api';
 import axios from 'axios';
 
 function CoursoForm() {
@@ -12,7 +13,7 @@ function CoursoForm() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:8080/cad-curso', {
+            const response = await api.post('/cad-curso', {
                 nome: name,
                 faculdade: faculdade,
                 notaDeCorte: parseFloat(cutoff), // Convert to a number if needed

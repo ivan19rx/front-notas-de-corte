@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { api } from '../../services/api';
 
 function EditCurso({ cursoId, onClose }) {
     const [nome, setNome] = useState('');
@@ -8,7 +9,7 @@ function EditCurso({ cursoId, onClose }) {
 
     useEffect(() => {
         // Recuperar as informações do curso para edição
-        axios.get(`http://localhost:8080/get-curso/${cursoId}`)
+        api.get(`/get-curso/${cursoId}`)
             .then(response => {
                 const curso = response.data;
                 setNome(curso.nome);
@@ -25,7 +26,7 @@ function EditCurso({ cursoId, onClose }) {
 
         try {
             // Enviar solicitação para atualizar o curso
-            await axios.put(`http://localhost:8080/edit-curso/${cursoId}`, {
+            await api.put(`/edit-curso/${cursoId}`, {
                 nome: nome,
                 faculdade: faculdade,
                 notaDeCorte: notaDeCorte,

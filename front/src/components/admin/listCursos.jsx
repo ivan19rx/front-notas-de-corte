@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditCurso from './editCurso';
+import { api } from '../../services/api';
 
 const ListCursos = () => {
   const [cursos, setCursos] = useState([]);
@@ -9,7 +10,7 @@ const ListCursos = () => {
   const [userRole, setUserRole] = useState(null); // Adicione este estado
 
   const fetchCursos = () => {
-    axios.get('http://localhost:8080/list-cursos')
+    api.get('/list-cursos')
       .then(response => {
         const data = response.data;
         if (!data.erro) {
@@ -44,7 +45,7 @@ const ListCursos = () => {
 
   const handleDelete = (id) => {
     try {
-      axios.delete(`http://localhost:8080/delete-curso/${id}`).then(() => {
+      api.delete(`/delete-curso/${id}`).then(() => {
         fetchCursos()
       })
     } catch (err) {
