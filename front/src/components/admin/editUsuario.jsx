@@ -5,7 +5,7 @@ function EditUsuario({ usuarioId, onClose }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [accessLevel, setAccessLevel] = useState(1);
+    const [accessLevel, setAccessLevel] = useState('');
 
     useEffect(() => {
         // Recuperar as informações do usuário para edição
@@ -69,10 +69,10 @@ function EditUsuario({ usuarioId, onClose }) {
                     <select
                         className='form-control'
                         value={accessLevel}
-                        onChange={(e) => setAccessLevel(parseInt(e.target.value))}
+                        onChange={(e) => setAccessLevel(e.target.value)}
                     >
-                        <option value={1}>Cliente</option>
-                        <option value={2}>Admin</option>
+                        <option value={'Cliente'}>Cliente</option>
+                        <option value={'Admin'}>Admin</option>
                     </select> <br />
                     <button className='btn btn-primary mt-2' type="submit">Salvar</button>
                     <button className='btn btn-secondary mt-2 ms-2' onClick={onClose}>Cancelar</button>

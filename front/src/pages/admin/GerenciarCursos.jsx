@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../Template.css';
 
 import ListUsuarios from '../../components/admin/listUsuarios';
@@ -7,15 +8,11 @@ import CadCurso from '../../components/admin/cadCurso';
 import CadUsuario from '../../components/admin/cadUsuario';
 
 function GerenciarCursos() {
-
-
-
-
     return (
         <>
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/">Sistema de notas de corte</a>
+                    <Link className="navbar-brand" to="/">Sistema de notas de corte</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -24,10 +21,10 @@ function GerenciarCursos() {
                     <div className="collapse navbar-collapse" id="navbarCollapse">
                         <ul className="navbar-nav me-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <a className='nav-link btn' href='/admin/gerenciar-usuarios'>Gerenciar usuários</a>
+                                <Link className='nav-link btn' to='/admin/gerenciar-usuarios'>Gerenciar usuários</Link>
                             </li>
                             <li className="nav-item">
-                                <a className='nav-link btn' href='/admin/gerenciar-cursos'>Gerenciar cursos</a>
+                                <Link className='nav-link btn' to='/admin/gerenciar-cursos'>Gerenciar cursos</Link>
                             </li>
                         </ul>
                     </div>

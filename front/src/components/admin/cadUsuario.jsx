@@ -8,7 +8,7 @@ function UsuarioForm() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [accessLevel, setAccessLevel] = useState(1);
+    const [accessLevel, setAccessLevel] = useState('Cliente');
 
     
 
@@ -28,7 +28,7 @@ function UsuarioForm() {
             setName('');
             setEmail('');
             setSenha('');
-            setAccessLevel(1);
+            setAccessLevel('Cliente');
             console.log('Resposta da API:', response.data);
             window.location.reload()
             
@@ -64,9 +64,9 @@ function UsuarioForm() {
                         value={senha}
                         onChange={(e) => setSenha(e.target.value)}
                     /> <br></br>
-                    <select className='form-control' value={accessLevel} onChange={(e) => setAccessLevel(parseInt(e.target.value))}>
-                        <option value={1}>Cliente</option>
-                        <option value={2}>Admin</option>
+                    <select className='form-control' value={accessLevel} onChange={(e) => setAccessLevel(e.target.value)}>
+                        <option value={'Cliente'}>Cliente</option>
+                        <option value={'Admin'}>Admin</option>
                     </select>  <br></br>
                     <button className='btn btn-primary mt-2' type="submit">Enviar</button>
                 </div>

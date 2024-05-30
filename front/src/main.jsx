@@ -8,21 +8,21 @@ import GerenciarUsuarios from './pages/admin/GerenciarUsuarios.jsx'
 import GerenciarCursos from './pages/admin/GerenciarCursos.jsx'
 import Login from './pages/login/Login.jsx'
 
-import { AuthProvider } from '../context/authContext.jsx'
+import { AuthProvider } from './context/auth.jsx'
+import { PrivateRoute } from './privateRoutes.jsx'
+import Autenticado from './autenticado/autenticado.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
           <Route path='/login' element={<Login />} />
-          <Route path='/' element={<App />} />
-          <Route path='/admin/gerenciar-usuarios' element={<GerenciarUsuarios />} />
-          <Route path='/admin/gerenciar-cursos' element={<GerenciarCursos />} />
-
+          <Route path='/' element={<Autenticado><App /></Autenticado>} />
+          <Route path='/admin/gerenciar-usuarios' element={<Autenticado><GerenciarUsuarios /></Autenticado>} />
+          <Route path='/admin/gerenciar-cursos' element={<Autenticado><GerenciarCursos /></Autenticado>} />
         </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 )
