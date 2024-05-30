@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import EditCurso from './editCurso'; // Importe o componente EditCurso
+import EditCurso from './editCurso';
 
 const ListCursos = () => {
   const [cursos, setCursos] = useState([]);
-  const [editCursoId, setEditCursoId] = useState(null); // Estado para controlar o ID do curso em edição
-
-  const [accessLevel, setAccessLevel] = useState(null);
+  const [editCursoId, setEditCursoId] = useState(null);
+  const [userRole, setUserRole] = useState(null); // Adicione este estado
 
   const fetchCursos = () => {
     axios.get('http://localhost:8080/list-cursos')
@@ -27,18 +26,19 @@ const ListCursos = () => {
   useEffect(() => {
     fetchCursos();
 
-    // Busque o nível de acesso do localStorage quando o componente for montado
-    const userAccessLevel = localStorage.getItem('accessLevel');
-    setAccessLevel(userAccessLevel);
+    // Busque o papel do usuário do localStorage quando o componente for montado
+    const user = JSON.parse(localStorage.getItem('@Auth:user'));
+    const role = user ? user.nivelacesso : null; // Altere esta linha
+    setUserRole(role);
   }, []);
 
   const handleEdit = (cursoId) => {
-    setEditCursoId(cursoId); // Define o ID do curso em edição
+    setEditCursoId(cursoId);
     fetchCursos()
   };
 
   const handleCloseEdit = () => {
-    setEditCursoId(null); // Limpa o ID do curso em edição
+    setEditCursoId(null);
     fetchCursos()
   };
 
@@ -52,7 +52,6 @@ const ListCursos = () => {
     }
   }
 
-
   return (
     <div>
       <table className="table">
@@ -61,7 +60,7 @@ const ListCursos = () => {
             <th scope='col'>Id</th>
             <th scope="col">Nome</th>
             <th scope="col">Nota de corte</th>
-            <th scope="col">Ações</th>
+            {userRole === 'Admin' && <th scope="col">Ações</th>} {/* Renderize condicionalmente a coluna Ações */}
           </tr>
         </thead>
         <tbody>
@@ -70,16 +69,17 @@ const ListCursos = () => {
               <td>{curso.id}</td>
               <td>{curso.nome}</td>
               <td>{curso.notaDeCorte}</td>
-              <td>
-                <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
-                <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
-              </td>
+              {userRole === 'Admin' && ( // Renderize condicionalmente as linhas correspondentes
+                <td>
+                  <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Mostra o componente de edição se o editCursoId estiver definido */}
       {editCursoId && <EditCurso cursoId={editCursoId} onClose={handleCloseEdit} />}
     </div>
   );

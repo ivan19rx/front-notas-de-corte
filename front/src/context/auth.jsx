@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await api.post("/login", { email, senha });
             if (response.data.erro) {
-                alert(response.data.erro);
+                alert("ocorreu algum erro");
             } else {
                 setUser(response.data);
                 api.defaults.headers.common[

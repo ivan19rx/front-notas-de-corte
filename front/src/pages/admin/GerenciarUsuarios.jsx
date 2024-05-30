@@ -31,7 +31,7 @@ function GerenciarUsuarios() {
                 </div>
             </nav>
             <h4 className='text-center'>Cadastrar usuário</h4>
-
+    
             <section className="container mb-5">
                 <div className="bg-light p-5 rounded">
                     <CadUsuario />
