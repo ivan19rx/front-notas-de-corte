@@ -14,7 +14,7 @@ function App() {
   function logOut() {
     const user = JSON.parse(localStorage.getItem('@Auth:user'));
     let nome = user.nome
-    const confirmLogout = window.confirm( nome+ ", Você está prestes a fazer logout do sistema! Deseja continuar?");
+    const confirmLogout = window.confirm(nome + ", Você está prestes a fazer logout do sistema! Deseja continuar?");
     if (confirmLogout) {
       localStorage.clear();
       window.location.reload();
@@ -29,6 +29,9 @@ function App() {
     const role = user ? user.nivelacesso : null;
     setUserRole(role);
   }, []);
+
+  const userr = JSON.parse(localStorage.getItem('@Auth:user'));
+  const nome = userr.nome
 
   return (
     <>
@@ -65,7 +68,7 @@ function App() {
         <div className="bg-light p-5 rounded">
           {userRole === 'Admin' && (
             <Alert variant="alert">
-              Olá, você é um admin, aqui você pode cadastrar novos admins e também gerenciar os cursos a serem exibidos na dashboard de nossos usuários
+              Olá {nome}, você é um admin, aqui você pode cadastrar novos admins e também gerenciar os cursos a serem exibidos na dashboard de nossos usuários
             </Alert>
           )}
           {userRole === 'Cliente' && (
