@@ -59,7 +59,7 @@ const ListCursos = () => {
         
         <thead>
           <tr>
-            <th scope="col">Nome</th>
+            <th scope="col">Curso</th>
             <th scope='col'>Faculdade</th>
             <th scope="col">Nota de corte</th>
             {userRole === 'Admin' && <th scope="col">Ações</th>}

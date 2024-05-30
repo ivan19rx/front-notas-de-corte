@@ -12,7 +12,9 @@ function App() {
   const [userRole, setUserRole] = useState(null); // Adicione este estado
 
   function logOut() {
-    const confirmLogout = window.confirm('Você está prestes a fazer logout do sistema. Deseja continuar?');
+    const user = JSON.parse(localStorage.getItem('@Auth:user'));
+    let nome = user.nome
+    const confirmLogout = window.confirm( nome+ ", Você está prestes a fazer logout do sistema! Deseja continuar?");
     if (confirmLogout) {
       localStorage.clear();
       window.location.reload();
