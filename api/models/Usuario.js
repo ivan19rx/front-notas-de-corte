@@ -21,7 +21,7 @@ const Usuario = db.define("usuarios", {
         allowNull: false
     },
     nivelacesso: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     }
 })

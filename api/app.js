@@ -1,19 +1,76 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+require('dotenv').config()
 
 app.use(express.json())
 
 app.use(cors())
+
+const bcrypt = require('bcrypt')
 
 const Usuario = require('./models/Usuario')
 const Cursos = require('./models/Cursos')
 
 const db = require('./models/db')
 const { where } = require('sequelize')
+const jwt = require('jsonwebtoken')
+
 
 app.get('/', (req, res) => {
     res.send('funcionando')
+})
+
+//rota de autenticação
+
+app.post('/login', async (req, res) => {
+    const { email, senha } = req.body
+    if (!email || !senha) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Todos os campos devem ser preenchidos!",
+        });
+    }
+
+    const usuario = await Usuario.findOne({ where: { email: req.body.email } });
+    if (!usuario) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Email ou senha incorretos"
+        });
+    }
+
+    if(req.body.senha != usuario.senha) {
+        return res.status(400).json({
+            erro: true,
+            msg: "Erro: senha incorreta"
+        })
+    }
+
+    try {
+        const secret = process.env.SECRET
+
+        const token = jwt.sign({
+            id: usuario.id,
+            nome: usuario.nome,
+            nivelAcesso: usuario.nivelacesso
+        }, secret
+        )
+
+        user = {
+            nome: usuario.nome,
+            nivelacesso: usuario.nivelacesso
+        }
+
+        return res.status(200).json({ msg: "professor autenticado com sucesso", token, user })
+
+    } catch (err) {
+        console.log(err)
+
+        return res.status(500).json({
+            msg: "ocorreu um erro no servidor"
+        })
+    }
 })
 
 //rotas do admin
@@ -54,6 +111,7 @@ app.post('/cad-usuario', async (req, res) => {
         });
     }
 
+    
 
 
     await Usuario.create(req.body).then(() => {
