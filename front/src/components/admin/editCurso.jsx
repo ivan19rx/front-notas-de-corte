@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function EditCurso({ cursoId, onClose }) {
     const [nome, setNome] = useState('');
+    const [faculdade, setFaculdade] = useState('');
     const [notaDeCorte, setNotaDeCorte] = useState('');
 
     useEffect(() => {
@@ -11,6 +12,7 @@ function EditCurso({ cursoId, onClose }) {
             .then(response => {
                 const curso = response.data;
                 setNome(curso.nome);
+                setFaculdade(curso.faculdade);
                 setNotaDeCorte(curso.notaDeCorte);
             })
             .catch(error => {
@@ -25,6 +27,7 @@ function EditCurso({ cursoId, onClose }) {
             // Enviar solicitação para atualizar o curso
             await axios.put(`http://localhost:8080/edit-curso/${cursoId}`, {
                 nome: nome,
+                faculdade: faculdade,
                 notaDeCorte: notaDeCorte,
             });
 
@@ -45,6 +48,13 @@ function EditCurso({ cursoId, onClose }) {
                         placeholder="Nome"
                         value={nome}
                         onChange={(e) => setNome(e.target.value)}
+                    /> <br />
+                    <input
+                        className='form-control'
+                        type="text"
+                        placeholder="Faculdade"
+                        value={faculdade}
+                        onChange={(e) => setFaculdade(e.target.value)}
                     /> <br />
                     <input
                         className='form-control'

@@ -54,11 +54,14 @@ const ListCursos = () => {
 
   return (
     <div>
-      <table className="table">
+      <h4 className='mb-3'>Veja aqui os principais cursos e suas notas de cortes</h4>
+      <table className="table" style={{ borderRadius: '15px' }}>
+        
         <thead>
           <tr>
             <th scope='col'>Id</th>
             <th scope="col">Nome</th>
+            <th scope='col'>Faculdade</th>
             <th scope="col">Nota de corte</th>
             {userRole === 'Admin' && <th scope="col">Ações</th>} {/* Renderize condicionalmente a coluna Ações */}
           </tr>
@@ -68,12 +71,15 @@ const ListCursos = () => {
             <tr key={curso.id}>
               <td>{curso.id}</td>
               <td>{curso.nome}</td>
+              <td>{curso.faculdade}</td>
               <td>{curso.notaDeCorte}</td>
               {userRole === 'Admin' && ( // Renderize condicionalmente as linhas correspondentes
-                <td>
-                  <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
-                  <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
-                </td>
+                <React.Fragment>
+                  <td>
+                    <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
+                    <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
+                  </td>
+                </React.Fragment>
               )}
             </tr>
           ))}

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 function CoursoForm() {
     const [name, setName] = useState('');
+    const [faculdade, setFaculdade] = useState('');
     const [cutoff, setCutoff] = useState('');
 
     const handleSubmit = async (e) => {
@@ -13,10 +14,12 @@ function CoursoForm() {
         try {
             const response = await axios.post('http://localhost:8080/cad-curso', {
                 nome: name,
+                faculdade: faculdade,
                 notaDeCorte: parseFloat(cutoff), // Convert to a number if needed
             });
 
             setName('');
+            setFaculdade('');
             setCutoff('');
             console.log('Resposta da API:', response.data);
             window.location.reload();
@@ -35,6 +38,14 @@ function CoursoForm() {
                         placeholder="Nome do curso"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                    />
+                    <br />
+                    <input
+                        className='form-control'
+                        type="text"
+                        placeholder="Nome da faculdade"
+                        value={faculdade}
+                        onChange={(e) => setFaculdade(e.target.value)}
                     />
                     <br />
                     <input

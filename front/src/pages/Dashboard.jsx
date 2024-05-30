@@ -6,6 +6,7 @@ import ListCursos from '../components/admin/listCursos';
 import CadCurso from '../components/admin/cadCurso';
 import CadUsuario from '../components/admin/cadUsuario';
 import { Link } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 function App() {
   const [userRole, setUserRole] = useState(null); // Adicione este estado
@@ -45,10 +46,16 @@ function App() {
       </nav>
 
 
-      <section className="container mt-5 center-content"> {/* Adicione a classe center-content */}
+      <section className="container mt-5 center-content">
         <div className="bg-light p-5 rounded">
-          <h4 className='text-center mb-4'>Veja aqui a lista de Todos os cursos e a sua nota de corte</h4>
-          <ListCursos />
+          {userRole === 'Admin' && (
+            <Alert variant="alert">
+              Olá, você é um admin, aqui você pode cadastrar novos admins e também novos cursos a serem exibidos na dashboard de nossos usuários
+            </Alert>
+          )}
+          {userRole === 'Cliente' && (
+            <ListCursos />
+          )}
         </div>
       </section>
     </>
