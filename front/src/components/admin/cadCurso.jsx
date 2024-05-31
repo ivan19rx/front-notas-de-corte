@@ -65,7 +65,7 @@ function CoursoForm() {
                         onChange={(e) => setCutoff(e.target.value)}
                     />
                     <br />
-                    <input
+                    <textarea
                         className='form-control'
                         type="text"
                         placeholder="Descrição do curso"

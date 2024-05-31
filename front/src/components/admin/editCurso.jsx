@@ -6,6 +6,7 @@ function EditCurso({ cursoId, onClose }) {
     const [nome, setNome] = useState('');
     const [faculdade, setFaculdade] = useState('');
     const [notaDeCorte, setNotaDeCorte] = useState('');
+    const [descricao, setDescricao] = useState('')
 
     useEffect(() => {
         // Recuperar as informações do curso para edição
@@ -20,6 +21,7 @@ function EditCurso({ cursoId, onClose }) {
                 setNome(curso.nome);
                 setFaculdade(curso.faculdade);
                 setNotaDeCorte(curso.notaDeCorte);
+                setDescricao(curso.descricao)
             })
             .catch(error => {
                 console.error('Erro ao buscar curso para edição:', error);
@@ -36,6 +38,7 @@ function EditCurso({ cursoId, onClose }) {
                 nome: nome,
                 faculdade: faculdade,
                 notaDeCorte: notaDeCorte,
+                descricao: descricao
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`, // Substitua 'token' pelo seu token
@@ -73,6 +76,13 @@ function EditCurso({ cursoId, onClose }) {
                         placeholder="Nota de corte"
                         value={notaDeCorte}
                         onChange={(e) => setNotaDeCorte(e.target.value)}
+                    /> <br />
+                    <textarea
+                        className='form-control'
+                        type="text"
+                        placeholder="Descrição do curso"
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
                     /> <br />
                     <button className='btn btn-primary mt-2' type="submit">Salvar</button>
                     <button className='btn btn-secondary mt-2 ms-2' onClick={onClose}>Cancelar</button>
