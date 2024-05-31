@@ -17,6 +17,7 @@ function UsuarioForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem("@Auth:token")
 
         try {
             const response = await api.post('/cad-usuario', {
@@ -24,6 +25,10 @@ function UsuarioForm() {
                 email: email,
                 senha: senha,
                 nivelacesso: accessLevel,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
 
             setName('');

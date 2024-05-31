@@ -9,7 +9,13 @@ const ListUsuarios = () => {
   const [editUserId, setEditUserId] = useState(null); // Estado para controlar o ID do usuário em edição
 
   const fetchUsuarios = () => {
-    api.get('/list-usuarios')
+    const token = localStorage.getItem("@Auth:token")
+
+    api.get('/list-usuarios', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(response => {
         const data = response.data;
         if (!data.erro) {
@@ -60,8 +66,14 @@ const ListUsuarios = () => {
     }).then((willDelete) => {
       if (willDelete) {
         try {
-          api.delete(`/delete-usuario/${id}`).then(() => {
-            fetchCursos();
+          const token = localStorage.getItem("@Auth:token")
+
+          api.delete(`/delete-usuario/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }).then(() => {
+            fetchUsuarios();
           });
         } catch (err) {
           console.log(err);

@@ -10,7 +10,13 @@ const ListCursos = () => {
   const [userRole, setUserRole] = useState(null); // Adicione este estado
 
   const fetchCursos = () => {
-    api.get('/list-cursos')
+    const token = localStorage.getItem("@Auth:token")
+
+    api.get('/list-cursos', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(response => {
         const data = response.data;
         if (!data.erro) {
@@ -65,9 +71,14 @@ const ListCursos = () => {
         },
       },
     }).then((willDelete) => {
+      const token = localStorage.getItem("@Auth:token")
       if (willDelete) {
         try {
-          api.delete(`/delete-curso/${id}`).then(() => {
+          api.delete(`/delete-curso/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Substitua 'token' pelo seu token
+            }
+          }).then(() => {
             fetchCursos();
           });
         } catch (err) {
@@ -75,7 +86,7 @@ const ListCursos = () => {
         }
       }
     });
-  }
+  };
 
   return (
     <div>

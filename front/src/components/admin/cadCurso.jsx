@@ -11,12 +11,17 @@ function CoursoForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem("@Auth:token")
 
         try {
             const response = await api.post('/cad-curso', {
                 nome: name,
                 faculdade: faculdade,
                 notaDeCorte: parseFloat(cutoff), // Convert to a number if needed
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
 
             setName('');

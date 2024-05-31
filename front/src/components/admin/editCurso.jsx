@@ -9,7 +9,12 @@ function EditCurso({ cursoId, onClose }) {
 
     useEffect(() => {
         // Recuperar as informações do curso para edição
-        api.get(`/get-curso/${cursoId}`)
+        const token = localStorage.getItem("@Auth:token"); // Recupere o token do local onde ele está armazenado
+        api.get(`/get-curso/${cursoId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Substitua 'token' pelo seu token
+            }
+        })
             .then(response => {
                 const curso = response.data;
                 setNome(curso.nome);
@@ -26,10 +31,15 @@ function EditCurso({ cursoId, onClose }) {
 
         try {
             // Enviar solicitação para atualizar o curso
+            const token = localStorage.getItem("@Auth:token"); // Recupere o token do local onde ele está armazenado
             await api.put(`/edit-curso/${cursoId}`, {
                 nome: nome,
                 faculdade: faculdade,
                 notaDeCorte: notaDeCorte,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Substitua 'token' pelo seu token
+                }
             });
 
             console.log('Curso atualizado com sucesso');

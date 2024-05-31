@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../Template.css';
 
-import ListUsuarios from '../../components/admin/listUsuarios';
-import ListCursos from '../../components/admin/listCursos';
-import CadCurso from '../../components/admin/cadCurso';
+import ListUsuarios from '../../components/admin/listUsuarios';     
 import CadUsuario from '../../components/admin/cadUsuario';
 import swal from 'sweetalert';
 import '../Dash.css'

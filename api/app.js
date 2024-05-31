@@ -21,6 +21,28 @@ app.get('/', (req, res) => {
     res.send('funcionando')
 })
 
+function checkToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(" ")[1]
+
+    if (!token) {
+        return res.status(401).json({ msg: "acesso negado" })
+    }
+
+    try {
+
+        const secret = process.env.SECRET
+
+        jwt.verify(token, secret)
+
+        next()
+
+
+    } catch (error) {
+        res.status(400).json({ msg: "token invalido" })
+    }
+}
+
 //rota de autenticação
 
 app.post('/login', async (req, res) => {
@@ -104,7 +126,7 @@ app.post("/register", async (req, res) => {
 
 //rotas do admin
 
-app.get('/list-usuarios', async (req, res) => {
+app.get('/list-usuarios', checkToken, async (req, res) => {
     await Usuario.findAll().then((data) => {
         return res.json({
             erro: false,
@@ -118,7 +140,7 @@ app.get('/list-usuarios', async (req, res) => {
     });
 })
 
-app.get('/get-usuario/:id', async (req, res) => {
+app.get('/get-usuario/:id', checkToken, async (req, res) => {
 
     await Usuario.findOne({ where: { id: req.params.id } }).then((data) => {
         return res.status(200).json(data)
@@ -129,7 +151,7 @@ app.get('/get-usuario/:id', async (req, res) => {
 })
 
 
-app.post('/cad-usuario', async (req, res) => {
+app.post('/cad-usuario', checkToken, async (req, res) => {
 
     const existingUsuario = await Usuario.findOne({ where: { email: req.body.email } });
 
@@ -157,7 +179,7 @@ app.post('/cad-usuario', async (req, res) => {
         });
 })
 
-app.put('/edit-usuario/:id', async (req, res) => {
+app.put('/edit-usuario/:id', checkToken,  async (req, res) => {
     await Usuario.update(req.body, { where: { 'id': req.params.id } }).then(() => {
         return res.json({
             erro: false,
@@ -172,7 +194,7 @@ app.put('/edit-usuario/:id', async (req, res) => {
         });
 })
 
-app.delete('/delete-usuario/:id', async (req, res) => {
+app.delete('/delete-usuario/:id', checkToken, async (req, res) => {
     const numDestroyed = await Usuario.destroy({ where: { id: req.params.id } });
     if (numDestroyed === 0) {
         return res.json({
@@ -189,7 +211,7 @@ app.delete('/delete-usuario/:id', async (req, res) => {
 
 //rotas colaborador
 
-app.get('/list-cursos', async (req, res) => {
+app.get('/list-cursos', checkToken, async (req, res) => {
     await Cursos.findAll().then((data) => {
         return res.json({
             erro: false,
@@ -203,7 +225,7 @@ app.get('/list-cursos', async (req, res) => {
     });
 })
 
-app.get('/get-curso/:id', async (req, res) => {
+app.get('/get-curso/:id',checkToken,  async (req, res) => {
 
     await Cursos.findOne({ where: { id: req.params.id } }).then((data) => {
         return res.status(200).json(data)
@@ -213,13 +235,13 @@ app.get('/get-curso/:id', async (req, res) => {
     )
 })
 
-app.post('/cad-curso', async (req, res) => {
+app.post('/cad-curso', checkToken, async (req, res) => {
     const existingCurso = await Cursos.findOne({ where: { nome: req.body.nome } });
 
     if (existingCurso) {
         return res.status(400).json({
             erro: true,
-            mensagem: "Erro: Já existe um usuario cadastrado com este nome!",
+            mensagem: "Erro: Já existe um curso cadastrado com este nome!",
         });
     }
 
@@ -237,7 +259,7 @@ app.post('/cad-curso', async (req, res) => {
         });
 })
 
-app.put('/edit-curso/:id', async (req, res) => {
+app.put('/edit-curso/:id',checkToken,  async (req, res) => {
     await Cursos.update(req.body, { where: { 'id': req.params.id } }).then(() => {
         return res.json({
             erro: false,
@@ -252,7 +274,7 @@ app.put('/edit-curso/:id', async (req, res) => {
         });
 })
 
-app.delete('/delete-curso/:id', async (req, res) => {
+app.delete('/delete-curso/:id', checkToken, async (req, res) => {
     const numDestroyed = await Cursos.destroy({ where: { id: req.params.id } });
     if (numDestroyed === 0) {
         return res.json({

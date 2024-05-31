@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error);
-            const responseError = error.response?.data?.msg || "Erro desconhecido";
+            const responseError = error.response?.data?.mensagem || "Erro desconhecido";
             swal({
                 title: "Aviso",
                 text: `${responseError}`,

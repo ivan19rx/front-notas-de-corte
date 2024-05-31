@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('sistemaNotasDeCorte', 'avnadmin', 'AVNS_YHkqhTwYYQpj9MzxfAB', {
-    host: 'sistema-notas-de-corte-sistema-notas-de-corte.e.aivencloud.com',
+const sequelize = new Sequelize('prova', 'root', '', {
+    host: 'localhost',
     dialect: 'mysql',
-    port: 20893
+    port: 3306
 });
 
 sequelize

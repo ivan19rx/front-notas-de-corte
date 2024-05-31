@@ -9,8 +9,14 @@ function EditUsuario({ usuarioId, onClose }) {
     const [accessLevel, setAccessLevel] = useState('');
 
     useEffect(() => {
+
+        const token = localStorage.getItem("@Auth:token"); // Recupere o token do local onde ele está armazenado
         // Recuperar as informações do usuário para edição
-        api.get(`/get-usuario/${usuarioId}`)
+        api.get(`/get-usuario/${usuarioId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Substitua 'token' pelo seu token
+            }
+        })
             .then(response => {
                 const usuario = response.data;
                 setName(usuario.nome);
@@ -27,12 +33,18 @@ function EditUsuario({ usuarioId, onClose }) {
         e.preventDefault();
 
         try {
+            const token = localStorage.getItem("@Auth:token"); // Recupere o token do local onde ele está armazenado
+
             // Enviar solicitação para atualizar o usuário
             await api.put(`/edit-usuario/${usuarioId}`, {
                 nome: name,
                 email: email,
                 senha: senha,
                 nivelacesso: accessLevel,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Substitua 'token' pelo seu token
+                }
             });
 
             console.log('Usuário atualizado com sucesso');
