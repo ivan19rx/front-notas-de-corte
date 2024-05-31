@@ -63,7 +63,7 @@ function GerenciarCursos() {
                             </li>
                         </ul>
                         <li className="nav-item">
-                            <button onClick={logOut} >Sair</button>
+                            <Link className="navbar-brand" onClick={logOut}>Sair</Link>
                         </li>
                     </div>
                 </div>
