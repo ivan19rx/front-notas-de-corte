@@ -115,40 +115,43 @@ const ListCursos = () => {
         )}
 
       </div>
-      <table className="table" style={{ borderRadius: '15px' }}>
+      {cursos.length > 0 ? (<table className="table" style={{ borderRadius: '15px' }}>
 
-        <thead>
-          <tr>
-            <th scope="col">Curso</th>
-            <th scope='col'>Faculdade</th>
-            <th scope="col">Nota de corte</th>
-            <th scope='col'>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cursos.map((curso) => (
-            <tr key={curso.id}>
-              <td>{curso.nome}</td>
-              <td>{curso.faculdade}</td>
-              <td>{curso.notaDeCorte}</td>
-              {userRole === 'Cliente' && (
-                <React.Fragment>
-                  <td><Link onClick={() => handleShow(curso)}>Sobre o curso</Link></td>
-                </React.Fragment>
-              )}
+<thead>
+  <tr>
+    <th scope="col">Curso</th>
+    <th scope='col'>Faculdade</th>
+    <th scope="col">Nota de corte</th>
+    <th scope='col'>Ações</th>
+  </tr>
+</thead>
+<tbody>
+  {cursos.map((curso) => (
+    <tr key={curso.id}>
+      <td>{curso.nome}</td>
+      <td>{curso.faculdade}</td>
+      <td>{curso.notaDeCorte}</td>
+      {userRole === 'Cliente' && (
+        <React.Fragment>
+          <td><Link onClick={() => handleShow(curso)}>Sobre o curso</Link></td>
+        </React.Fragment>
+      )}
 
-              {userRole === 'Admin' && ( // Renderize condicionalmente as linhas correspondentes
-                <React.Fragment>
-                  <td>
-                    <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
-                    <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
-                  </td>
-                </React.Fragment>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {userRole === 'Admin' && ( // Renderize condicionalmente as linhas correspondentes
+        <React.Fragment>
+          <td>
+            <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
+            <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
+          </td>
+        </React.Fragment>
+      )}
+    </tr>
+  ))}
+</tbody>
+</table>): (
+  <p className='text-danger'>Não há nenhum curso a ser exibido</p>  
+)}
+     
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
