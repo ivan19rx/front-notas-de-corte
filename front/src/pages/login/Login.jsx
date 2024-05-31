@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useState } from 'react'
 import { AuthContext } from '../../context/auth'
 import { Link, Navigate } from 'react-router-dom'
+import swal from 'sweetalert'
 
 const Login = () => {
     let [email, setEmail] = useState("")
@@ -10,8 +11,20 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        if (!email || !senha) {
-            alert('Todos os campos devem ser preenchidos')
+        if (!email) {
+            swal({
+                title: "Aviso",
+                text: "Todos os campos devem ser preenchidos",
+                icon: "warning",
+            });
+            return
+        }
+        if (!senha) {
+            swal({
+                title: "Aviso",
+                text: "Todos os campos devem ser preenchidos",
+                icon: "warning",
+            });
             return
         }
         const data = {
@@ -35,7 +48,7 @@ const Login = () => {
                     <div className="container-login100">
                         <div className="wrap-login100">
                             <form onSubmit={handleLogin} className="login100-form validate-form">
-                                
+
                                 <span className="login100-form-title p-b-48">
                                     Sistema Notas de corte
                                 </span>

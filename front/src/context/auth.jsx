@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from 'react'
 import { api } from "../services/api"
 import axios from 'axios'
 import { useNavigate, Navigate } from 'react-router-dom'
+import swal from 'sweetalert'
 
 export const AuthContext = createContext()
 
@@ -42,8 +43,13 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error);
+            const responseError = error.response?.data?.msg || "Erro desconhecido";
+            swal({
+                title: "Aviso",
+                text: `${responseError}`,
+                icon: "warning",
+            });
         }
-
 
     };
     const signUp = async ({ nome, email, senha }) => {

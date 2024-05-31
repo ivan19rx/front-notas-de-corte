@@ -44,20 +44,44 @@ const ListCursos = () => {
   };
 
   const handleDelete = (id) => {
-    try {
-      api.delete(`/delete-curso/${id}`).then(() => {
-        fetchCursos()
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    swal({
+      title: "Confirmação",
+      text: "Você está prestes a excluir este curso. Deseja continuar?",
+      icon: "warning",
+      buttons: {
+        cancel: {
+          text: "Cancelar",
+          value: null,
+          visible: true,
+          className: "",
+          closeModal: true,
+        },
+        confirm: {
+          text: "Prosseguir",
+          value: true,
+          visible: true,
+          className: "red-button", // Add a custom CSS class for the red button
+          closeModal: true,
+        },
+      },
+    }).then((willDelete) => {
+      if (willDelete) {
+        try {
+          api.delete(`/delete-curso/${id}`).then(() => {
+            fetchCursos();
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
   }
 
   return (
     <div>
       <h4 className='mb-3'>Veja aqui os principais cursos e suas notas de cortes</h4>
       <table className="table" style={{ borderRadius: '15px' }}>
-        
+
         <thead>
           <tr>
             <th scope="col">Curso</th>

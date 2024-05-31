@@ -6,18 +6,42 @@ import ListUsuarios from '../../components/admin/listUsuarios';
 import ListCursos from '../../components/admin/listCursos';
 import CadCurso from '../../components/admin/cadCurso';
 import CadUsuario from '../../components/admin/cadUsuario';
+import swal from 'sweetalert';
+import '../Dash.css'
 
 function GerenciarUsuarios() {
 
     function logOut() {
         const user = JSON.parse(localStorage.getItem('@Auth:user'));
-        let nome = user.nome
-        const confirmLogout = window.confirm(nome + ", Você está prestes a fazer logout do sistema! Deseja continuar?");
-        if (confirmLogout) {
+        const nome = user.nome;
+    
+        swal({
+          title: "Confirmação",
+          text: `${nome}, você está prestes a fazer logout do sistema! Deseja continuar?`,
+          icon: "warning",
+          buttons: {
+            cancel: {
+              text: "Cancelar",
+              value: null,
+              visible: true,
+              className: "",
+              closeModal: true,
+            },
+            confirm: {
+              text: "Logout",
+              value: true,
+              visible: true,
+              className: "red-button", // Add a custom CSS class for the red button
+              closeModal: true,
+            },
+          },
+        }).then((willLogout) => {
+          if (willLogout) {
             localStorage.clear();
             window.location.reload();
-        }
-    }
+          }
+        });
+      }
     return (
         <>
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">

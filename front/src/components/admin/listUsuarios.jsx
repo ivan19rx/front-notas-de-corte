@@ -37,13 +37,37 @@ const ListUsuarios = () => {
   };
 
   const handleDelete = (id) => {
-    try {
-      axios.delete(`http://localhost:8080/delete-usuario/${id}`).then(() => {
-        fetchUsuarios()
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    swal({
+      title: "Confirmação",
+      text: "Você está prestes a excluir este usuário. Deseja continuar?",
+      icon: "warning",
+      buttons: {
+        cancel: {
+          text: "Cancelar",
+          value: null,
+          visible: true,
+          className: "",
+          closeModal: true,
+        },
+        confirm: {
+          text: "Prosseguir",
+          value: true,
+          visible: true,
+          className: "red-button", // Add a custom CSS class for the red button
+          closeModal: true,
+        },
+      },
+    }).then((willDelete) => {
+      if (willDelete) {
+        try {
+          api.delete(`/delete-usuario/${id}`).then(() => {
+            fetchCursos();
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
   }
 
   return (
