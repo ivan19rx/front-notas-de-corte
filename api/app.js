@@ -65,7 +65,7 @@ app.post('/login', async (req, res) => {
     if (req.body.senha != usuario.senha) {
         return res.status(400).json({
             erro: true,
-            msg: "Erro: senha incorreta"
+            msg: "Erro: Email ou senha incorretos"
         })
     }
 
