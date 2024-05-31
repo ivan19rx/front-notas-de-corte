@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { AuthContext } from '../../context/auth'
 import { Link, Navigate } from 'react-router-dom'
 
+
+
 const Register = () => {
     let [nome, setNome] = useState("")
     let [email, setEmail] = useState("")

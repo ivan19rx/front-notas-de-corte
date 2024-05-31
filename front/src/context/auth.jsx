@@ -3,6 +3,7 @@ import { api } from "../services/api"
 import axios from 'axios'
 import { useNavigate, Navigate } from 'react-router-dom'
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
 
 export const AuthContext = createContext()
 
@@ -58,10 +59,23 @@ export const AuthProvider = ({ children }) => {
             if (response.data.erro) {
                 alert("ocorreu algum erro");
             } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Você se registrou com sucesso",
+                    showConfirmButton: false,
+                    timer: 2300
+                });
                 navigate('/login');
             }
         } catch (error) {
             console.log(error);
+            const responseError = error.response?.data?.mensagem || "Erro desconhecido";
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${responseError}`,
+            });
         }
     };
 
