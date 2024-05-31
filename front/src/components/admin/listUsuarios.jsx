@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { Modal } from 'react-bootstrap';
+
 import EditUsuario from './editUsuario';
+import CadUsuario from './cadUsuario'
+
 import { api } from '../../services/api';
 
 const ListUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [editUserId, setEditUserId] = useState(null); // Estado para controlar o ID do usuário em edição
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleNew = () => {
+    setShowModal(true); // Exibe o modal quando o botão "Novo" é clicado
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); // Fecha o modal
+    fetchUsuarios(); // Atualiza a lista de usuários
+  };
+
+
 
   const fetchUsuarios = () => {
     const token = localStorage.getItem("@Auth:token")
@@ -84,13 +101,15 @@ const ListUsuarios = () => {
 
   return (
     <div>
-      <table className="table">
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h4 className='mb-3'>Veja aqui os principais cursos e suas notas de cortes </h4>
+        <button className='btn btn-success mb-4' onClick={handleNew}>Novo</button>
+      </div>
+      <table className="table" style={{ borderRadius: '15px' }}>
         <thead>
           <tr>
-            <th scope='col'>Id</th>
             <th scope="col">Nome</th>
             <th scope="col">Email</th>
-            <th scope="col">Senha</th>
             <th scope="col">Nível de Acesso</th>
             <th>Ações</th>
           </tr>
@@ -98,10 +117,8 @@ const ListUsuarios = () => {
         <tbody>
           {usuarios.map((usuario) => (
             <tr key={usuario.id}>
-              <td>{usuario.id}</td>
               <td>{usuario.nome}</td>
               <td>{usuario.email}</td>
-              <td>{usuario.senha}</td>
               <td>{usuario.nivelacesso}</td>
               <td>
                 <button className="btn btn-primary" onClick={() => handleEdit(usuario.id)}><FaEdit /></button>
@@ -111,6 +128,17 @@ const ListUsuarios = () => {
           ))}
         </tbody>
       </table>
+
+
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cadastrar Novo Usuário</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CadUsuario onClose={handleCloseModal} />
+        </Modal.Body>
+      </Modal>
 
       {/* Mostra o componente de edição se o editUserId estiver definido */}
       {editUserId && <EditUsuario usuarioId={editUserId} onClose={handleCloseEdit} />}

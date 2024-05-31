@@ -68,19 +68,16 @@ function GerenciarCursos() {
                     </div>
                 </div>
             </nav>
-            <h4 className='text-center'>Cadastrar curso</h4>
-            <section className="container mb-5">
-                <div className="bg-light p-5 rounded">
-                    <CadCurso />
-                </div>
-            </section>
 
-            <h4 className='text-center'>Gerenciar cursos cadastrados</h4>
-            <section className="container">
-                <div className="bg-light p-5 rounded">
-                    <ListCursos />
-                </div>
-            </section>
+
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <h4 className='text-center'>Gerenciar cursos cadastrados</h4>
+                <section className="container">
+                    <div className="bg-light p-5 rounded">
+                        <ListCursos />
+                    </div>
+                </section>
+            </div>
         </>
     );
 }

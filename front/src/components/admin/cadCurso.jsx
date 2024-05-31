@@ -7,6 +7,7 @@ import axios from 'axios';
 function CoursoForm() {
     const [name, setName] = useState('');
     const [faculdade, setFaculdade] = useState('');
+    const [descricao, setDescricao] = useState('')
     const [cutoff, setCutoff] = useState('');
 
     const handleSubmit = async (e) => {
@@ -18,6 +19,7 @@ function CoursoForm() {
                 nome: name,
                 faculdade: faculdade,
                 notaDeCorte: parseFloat(cutoff), // Convert to a number if needed
+                descricao: descricao
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -27,6 +29,7 @@ function CoursoForm() {
             setName('');
             setFaculdade('');
             setCutoff('');
+            setDescricao('');
             console.log('Resposta da API:', response.data);
             window.location.reload();
         } catch (error) {
@@ -60,6 +63,14 @@ function CoursoForm() {
                         placeholder="Nota de corte"
                         value={cutoff}
                         onChange={(e) => setCutoff(e.target.value)}
+                    />
+                    <br />
+                    <input
+                        className='form-control'
+                        type="text"
+                        placeholder="Descrição do curso"
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
                     />
                     <br />
                     <button className='mt-2 btn btn-primary btn-block' type="submit">Cadastrar</button> {/* btn-block para ocupar a largura do pai */}

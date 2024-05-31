@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditCurso from './editCurso';
 import { api } from '../../services/api';
+import { Link } from 'react-router-dom';
+
+import { Modal, Button } from 'react-bootstrap';
+import CadCurso from './cadCurso'
 
 const ListCursos = () => {
   const [cursos, setCursos] = useState([]);
   const [editCursoId, setEditCursoId] = useState(null);
   const [userRole, setUserRole] = useState(null); // Adicione este estado
+
+  const [show, setShow] = useState(false);
+  const [cursoInfo, setCursoInfo] = useState({ nome: '', descricao: '' });
+
+  const [showCadCurso, setShowCadCurso] = useState(false);
+  const handleShowCadCurso = () => setShowCadCurso(true);
+  const handleCloseCadCurso = () => setShowCadCurso(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (curso) => {
+    setCursoInfo(curso);
+    setShow(true);
+  };
 
   const fetchCursos = () => {
     const token = localStorage.getItem("@Auth:token")
@@ -90,7 +106,15 @@ const ListCursos = () => {
 
   return (
     <div>
-      <h4 className='mb-3'>Veja aqui os principais cursos e suas notas de cortes</h4>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h4 className='mb-3'>Veja aqui os principais cursos e suas notas de cortes </h4>
+        {userRole === 'Admin' && (
+          <React.Fragment>
+            <button className='btn btn-success mb-4' onClick={handleShowCadCurso}>Novo</button>
+          </React.Fragment>
+        )}
+
+      </div>
       <table className="table" style={{ borderRadius: '15px' }}>
 
         <thead>
@@ -98,7 +122,7 @@ const ListCursos = () => {
             <th scope="col">Curso</th>
             <th scope='col'>Faculdade</th>
             <th scope="col">Nota de corte</th>
-            {userRole === 'Admin' && <th scope="col">Ações</th>}
+            <th scope='col'>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -107,6 +131,12 @@ const ListCursos = () => {
               <td>{curso.nome}</td>
               <td>{curso.faculdade}</td>
               <td>{curso.notaDeCorte}</td>
+              {userRole === 'Cliente' && (
+                <React.Fragment>
+                  <td><Link onClick={() => handleShow(curso)}>Sobre o curso</Link></td>
+                </React.Fragment>
+              )}
+
               {userRole === 'Admin' && ( // Renderize condicionalmente as linhas correspondentes
                 <React.Fragment>
                   <td>
@@ -120,6 +150,41 @@ const ListCursos = () => {
         </tbody>
       </table>
 
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{cursoInfo.nome}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {cursoInfo.descricao ? (
+            cursoInfo.descricao
+          ) : (
+            <p>A descrição para este curso ainda não foi informada.</p>
+          )}
+
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+
+      <Modal show={showCadCurso} onHide={handleCloseCadCurso}> {/* Adicione este modal */}
+        <Modal.Header closeButton>
+          <Modal.Title>Cadastrar curso</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CadCurso />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseCadCurso}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {editCursoId && <EditCurso cursoId={editCursoId} onClose={handleCloseEdit} />}
     </div>
   );

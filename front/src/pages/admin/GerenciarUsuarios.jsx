@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../Template.css';
 
-import ListUsuarios from '../../components/admin/listUsuarios';     
+import ListUsuarios from '../../components/admin/listUsuarios';
 import CadUsuario from '../../components/admin/cadUsuario';
 import swal from 'sweetalert';
 import '../Dash.css'
@@ -65,20 +65,19 @@ function GerenciarUsuarios() {
                     </div>
                 </div>
             </nav>
-            <h4 className='text-center'>Cadastrar usuário</h4>
 
-            <section className="container mb-5">
-                <div className="bg-light p-5 rounded">
-                    <CadUsuario />
-                </div>
-            </section>
+
             <h4 className='text-center'>Gerenciar usuários cadastrados</h4>
 
-            <section className="container">
-                <div className="bg-light p-5 rounded">
-                    <ListUsuarios />
-                </div>
-            </section>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                
+                <h4 className='text-center'>Gerenciar usuários cadastrados</h4>
+                <section className="container">
+                    <div className="bg-light p-5 rounded">
+                        <ListUsuarios />
+                    </div>
+                </section>
+            </div>
         </>
     );
 }

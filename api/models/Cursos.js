@@ -19,6 +19,10 @@ const Cursos = db.define('cursos', {
     notaDeCorte: {
         type: Sequelize.FLOAT,
         allowNull: false
+    },
+    descricao: {
+        type: Sequelize.TEXT,
+        allowNull: true
     }
 })
 
