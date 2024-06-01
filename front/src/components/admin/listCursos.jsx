@@ -19,6 +19,31 @@ const ListCursos = () => {
   const handleShowCadCurso = () => setShowCadCurso(true);
   const handleCloseCadCurso = () => setShowCadCurso(false);
 
+  const [ordenacao, setOrdenacao] = useState('asc'); // Estado para controlar a ordenação
+  const [cursosOrdenados, setCursosOrdenados] = useState([]);
+
+  useEffect(() => {
+    ordenarCursos(); // Ordenar os cursos quando o componente for montado
+  }, [cursos, ordenacao]);
+
+  const ordenarCursos = () => {
+    const cursosOrdenados = [...cursos]; // Clonar o array de cursos para evitar mutações indesejadas
+
+    cursosOrdenados.sort((cursoA, cursoB) => {
+      if (ordenacao === 'asc') {
+        return cursoA.notaDeCorte - cursoB.notaDeCorte;
+      } else {
+        return cursoB.notaDeCorte - cursoA.notaDeCorte;
+      }
+    });
+
+    setCursosOrdenados(cursosOrdenados);
+  };
+
+  const handleOrdenacaoChange = (event) => {
+    setOrdenacao(event.target.value); // Definir a nova ordenação
+  };
+
   const handleClose = () => setShow(false);
   const handleShow = (curso) => {
     setCursoInfo(curso);
@@ -115,43 +140,53 @@ const ListCursos = () => {
         )}
 
       </div>
+      {cursos.length > 0 && (
+        <React.Fragment>
+          <select className='btn' value={ordenacao} onChange={handleOrdenacaoChange}>
+            <option value="asc">Nota: menor para maior</option>
+            <option value="desc">nota: maior para menor</option>
+          </select>
+        </React.Fragment>
+      )}
+
       {cursos.length > 0 ? (<table className="table" style={{ borderRadius: '15px' }}>
 
-<thead>
-  <tr>
-    <th scope="col">Curso</th>
-    <th scope='col'>Faculdade</th>
-    <th scope="col">Nota de corte</th>
-    <th scope='col'>Ações</th>
-  </tr>
-</thead>
-<tbody>
-  {cursos.map((curso) => (
-    <tr key={curso.id}>
-      <td>{curso.nome}</td>
-      <td>{curso.faculdade}</td>
-      <td>{curso.notaDeCorte}</td>
-      {userRole === 'Cliente' && (
-        <React.Fragment>
-          <td><Link onClick={() => handleShow(curso)}>Sobre o curso</Link></td>
-        </React.Fragment>
+        <thead>
+          <tr>
+            <th scope="col">Curso</th>
+            <th scope='col'>Faculdade</th>
+            <th scope="col">Nota de corte</th>
+            <th scope='col'>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cursosOrdenados.map((curso) => (
+            <tr key={curso.id}>
+              <td>{curso.nome}</td>
+              <td>{curso.faculdade}</td>
+              <td>{curso.notaDeCorte}</td>
+              {userRole === 'Cliente' && (
+                <React.Fragment>
+                  <td><Link onClick={() => handleShow(curso)}>Sobre o curso</Link></td>
+                </React.Fragment>
+              )}
+
+              {userRole === 'Admin' && (
+                <React.Fragment>
+                  <td>
+                    <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
+                    <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
+                  </td>
+                </React.Fragment>
+              )}
+            </tr>
+          ))}
+
+        </tbody>
+      </table>) : (
+        <p className='text-danger'>Não há nenhum curso a ser exibido</p>
       )}
 
-      {userRole === 'Admin' && ( // Renderize condicionalmente as linhas correspondentes
-        <React.Fragment>
-          <td>
-            <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
-            <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
-          </td>
-        </React.Fragment>
-      )}
-    </tr>
-  ))}
-</tbody>
-</table>): (
-  <p className='text-danger'>Não há nenhum curso a ser exibido</p>  
-)}
-     
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
