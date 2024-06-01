@@ -149,7 +149,7 @@ const ListCursos = () => {
         </React.Fragment>
       )}
 
-      {cursos.length > 0 ? (<table className="table" style={{ borderRadius: '15px' }}>
+      {cursos.length > 0 ? (<table className="table table-responsive" style={{ borderRadius: '15px' }}>
 
         <thead>
           <tr>

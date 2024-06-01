@@ -105,7 +105,7 @@ const ListUsuarios = () => {
         <h4 className='mb-3'>Veja aqui os principais cursos e suas notas de cortes </h4>
         <button className='btn btn-success mb-4' onClick={handleNew}>Novo</button>
       </div>
-      <table className="table" style={{ borderRadius: '15px' }}>
+      <table className="table table-responsive" style={{ borderRadius: '15px' }}>
         <thead>
           <tr>
             <th scope="col">Nome</th>
