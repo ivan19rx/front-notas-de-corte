@@ -50,7 +50,7 @@ app.post('/login', async (req, res) => {
     if (!email || !senha) {
         return res.status(400).json({
             erro: true,
-            mensagem: "Erro: Todos os campos devem ser preenchidos!",
+            msg: "Erro: Todos os campos devem ser preenchidos!",
         });
     }
 
@@ -58,7 +58,7 @@ app.post('/login', async (req, res) => {
     if (!usuario) {
         return res.status(400).json({
             erro: true,
-            mensagem: "Erro: Email ou senha incorretos"
+            msg: "Erro: Email ou senha incorretos"
         });
     }
 
