@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { AuthContext } from '../../context/auth'
 import { Link, Navigate } from 'react-router-dom'
 import swal from 'sweetalert'
+import { ToastContainer } from 'react-toastify'
 
 const Login = () => {
     let [email, setEmail] = useState("")
@@ -44,6 +45,7 @@ const Login = () => {
 
         return (
             <>
+            
                 <div className="limiter">
                     <div className="container-login100">
                         <div className="wrap-login100">

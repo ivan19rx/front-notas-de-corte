@@ -1,8 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { api } from "../services/api"
-import axios from 'axios'
 import { useNavigate, Navigate } from 'react-router-dom'
-import swal from 'sweetalert'
 import Swal from 'sweetalert2'
 
 export const AuthContext = createContext()
