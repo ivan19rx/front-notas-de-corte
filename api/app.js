@@ -179,7 +179,7 @@ app.post('/cad-usuario', checkToken, async (req, res) => {
         });
 })
 
-app.put('/edit-usuario/:id', checkToken,  async (req, res) => {
+app.put('/edit-usuario/:id', checkToken, async (req, res) => {
     await Usuario.update(req.body, { where: { 'id': req.params.id } }).then(() => {
         return res.json({
             erro: false,
@@ -211,21 +211,34 @@ app.delete('/delete-usuario/:id', checkToken, async (req, res) => {
 
 //rotas colaborador
 
-app.get('/list-cursos', checkToken, async (req, res) => {
-    await Cursos.findAll().then((data) => {
+app.get('/list-cursos', async (req, res) => {
+    const { nome, faculdade } = req.query;
+
+    let whereClause = {};
+    if (nome) {
+        whereClause.nome = nome;
+    }
+    if (faculdade) {
+        whereClause.faculdade = faculdade;
+    }
+
+    await Cursos.findAll({
+        where: whereClause
+    }).then((data) => {
         return res.json({
             erro: false,
             data
-        })
+        });
     }).catch(() => {
         return res.status(400).json({
             erro: true,
-            mensagem: "erro ao buscar dados",
+            mensagem: "Erro ao buscar dados"
         });
     });
-})
+});
 
-app.get('/get-curso/:id',checkToken,  async (req, res) => {
+
+app.get('/get-curso/:id', checkToken, async (req, res) => {
 
     await Cursos.findOne({ where: { id: req.params.id } }).then((data) => {
         return res.status(200).json(data)
@@ -259,7 +272,7 @@ app.post('/cad-curso', checkToken, async (req, res) => {
         });
 })
 
-app.put('/edit-curso/:id',checkToken,  async (req, res) => {
+app.put('/edit-curso/:id', checkToken, async (req, res) => {
     await Cursos.update(req.body, { where: { 'id': req.params.id } }).then(() => {
         return res.json({
             erro: false,
