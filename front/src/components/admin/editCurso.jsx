@@ -37,7 +37,7 @@ function EditCurso({ cursoId, onClose }) {
             await api.put(`/edit-curso/${cursoId}`, {
                 nome: nome,
                 faculdade: faculdade,
-                notaDeCorte: notaDeCorte,
+                notaDeCorte: parseFloat(notaDeCorte),
                 descricao: descricao
             }, {
                 headers: {
@@ -46,6 +46,7 @@ function EditCurso({ cursoId, onClose }) {
             });
 
             console.log('Curso atualizado com sucesso');
+            console.log(parseInt(notaDeCorte))
             onClose(window.location.reload());
         } catch (error) {
             console.error('Erro ao editar curso:', error);

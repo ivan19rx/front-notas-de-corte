@@ -3,32 +3,39 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditCurso from './editCurso';
 import { api } from '../../services/api';
 import { Link } from 'react-router-dom';
-
+import swal from 'sweetalert'; // Importe o swal se ainda não estiver sendo importado
 import { Modal, Button } from 'react-bootstrap';
-import CadCurso from './cadCurso'
+import CadCurso from './cadCurso';
 
 const ListCursos = () => {
   const [cursos, setCursos] = useState([]);
   const [editCursoId, setEditCursoId] = useState(null);
-  const [userRole, setUserRole] = useState(null); // Adicione este estado
-
+  const [userRole, setUserRole] = useState(null);
   const [show, setShow] = useState(false);
   const [cursoInfo, setCursoInfo] = useState({ nome: '', descricao: '' });
-
   const [showCadCurso, setShowCadCurso] = useState(false);
-  const handleShowCadCurso = () => setShowCadCurso(true);
-  const handleCloseCadCurso = () => setShowCadCurso(false);
-
-  const [ordenacao, setOrdenacao] = useState('asc'); // Estado para controlar a ordenação
+  const [ordenacao, setOrdenacao] = useState('asc');
   const [cursosOrdenados, setCursosOrdenados] = useState([]);
+  const [pesquisa, setPesquisa] = useState('');
+  const [ano, setAno] = useState('');
 
   useEffect(() => {
-    ordenarCursos(); // Ordenar os cursos quando o componente for montado
+    ordenarCursos();
   }, [cursos, ordenacao]);
 
-  const ordenarCursos = () => {
-    const cursosOrdenados = [...cursos]; // Clonar o array de cursos para evitar mutações indesejadas
+  useEffect(() => {
+    fetchCursos();
+    const user = JSON.parse(localStorage.getItem('@Auth:user'));
+    const role = user ? user.nivelacesso : null;
+    setUserRole(role);
+  }, []);
 
+  useEffect(() => {
+    fetchCursos();
+  }, [pesquisa, ano]); // Atualiza os cursos sempre que o termo de pesquisa ou ano mudar
+
+  const ordenarCursos = () => {
+    const cursosOrdenados = [...cursos];
     cursosOrdenados.sort((cursoA, cursoB) => {
       if (ordenacao === 'asc') {
         return cursoA.notaDeCorte - cursoB.notaDeCorte;
@@ -36,58 +43,46 @@ const ListCursos = () => {
         return cursoB.notaDeCorte - cursoA.notaDeCorte;
       }
     });
-
     setCursosOrdenados(cursosOrdenados);
   };
 
   const handleOrdenacaoChange = (event) => {
-    setOrdenacao(event.target.value); // Definir a nova ordenação
-  };
-
-  const handleClose = () => setShow(false);
-  const handleShow = (curso) => {
-    setCursoInfo(curso);
-    setShow(true);
+    setOrdenacao(event.target.value);
   };
 
   const fetchCursos = () => {
-    const token = localStorage.getItem("@Auth:token")
+    const token = localStorage.getItem("@Auth:token");
+    let query = pesquisa ? `?q=${pesquisa}` : '';
+    if (ano) {
+      query += pesquisa ? `&ano=${ano}` : `?ano=${ano}`;
+    }
 
-    api.get('/list-cursos', {
+    api.get(`/list-cursos${query}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-      .then(response => {
-        const data = response.data;
-        if (!data.erro) {
-          setCursos(data.data);
-        } else {
-          console.error(data.mensagem);
-        }
-      })
-      .catch(error => {
-        console.error('Erro ao buscar dados:', error);
-      });
+    .then(response => {
+      const data = response.data;
+      if (!data.erro) {
+        setCursos(data.data);
+      } else {
+        console.error(data.mensagem);
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao buscar dados:', error);
+    });
   };
-
-  useEffect(() => {
-    fetchCursos();
-
-    // Busque o papel do usuário do localStorage quando o componente for montado
-    const user = JSON.parse(localStorage.getItem('@Auth:user'));
-    const role = user ? user.nivelacesso : null; // Altere esta linha
-    setUserRole(role);
-  }, []);
 
   const handleEdit = (cursoId) => {
     setEditCursoId(cursoId);
-    fetchCursos()
+    fetchCursos();
   };
 
   const handleCloseEdit = () => {
     setEditCursoId(null);
-    fetchCursos()
+    fetchCursos();
   };
 
   const handleDelete = (id) => {
@@ -107,7 +102,7 @@ const ListCursos = () => {
           text: "Prosseguir",
           value: true,
           visible: true,
-          className: "red-button", // Add a custom CSS class for the red button
+          className: "red-button",
           closeModal: true,
         },
       },
@@ -117,7 +112,7 @@ const ListCursos = () => {
         try {
           api.delete(`/delete-curso/${id}`, {
             headers: {
-              Authorization: `Bearer ${token}`, // Substitua 'token' pelo seu token
+              Authorization: `Bearer ${token}`
             }
           }).then(() => {
             fetchCursos();
@@ -129,6 +124,23 @@ const ListCursos = () => {
     });
   };
 
+  const handleShowCadCurso = () => setShowCadCurso(true);
+  const handleCloseCadCurso = () => setShowCadCurso(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (curso) => {
+    setCursoInfo(curso);
+    setShow(true);
+  };
+
+  const handlePesquisaChange = (event) => {
+    setPesquisa(event.target.value);
+  };
+
+  const handleAnoChange = (event) => {
+    setAno(event.target.value);
+  };
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -138,56 +150,65 @@ const ListCursos = () => {
             <button className='btn btn-success mb-4' onClick={handleShowCadCurso}>Novo</button>
           </React.Fragment>
         )}
-
       </div>
-      {cursos.length > 0 && (
-        <React.Fragment>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        
+        <div>
           <select className='btn' value={ordenacao} onChange={handleOrdenacaoChange}>
             <option value="asc">Nota: menor para maior</option>
-            <option value="desc">nota: maior para menor</option>
+            <option value="desc">Nota: maior para menor</option>
           </select>
-        </React.Fragment>
-      )}
+        </div>
+        <div>
+          <span>Filtrar por ano</span>
+          <select className='btn' value={ano} onChange={handleAnoChange}>
+            <option value="">Sem filtros</option>
+            {Array.from({ length: 14 }, (_, i) => 2010 + i).map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-      {cursos.length > 0 ? (<table className="table table-responsive" style={{ borderRadius: '15px' }}>
-
-        <thead>
-          <tr>
-            <th scope="col">Curso</th>
-            <th scope='col'>Faculdade</th>
-            <th scope="col">Nota de corte</th>
-            <th scope='col'>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cursosOrdenados.map((curso) => (
-            <tr key={curso.id}>
-              <td>{curso.nome}</td>
-              <td>{curso.faculdade}</td>
-              <td>{curso.notaDeCorte}</td>
-              {userRole === 'Cliente' && (
-                <React.Fragment>
-                  <td><Link onClick={() => handleShow(curso)}>Sobre o curso</Link></td>
-                </React.Fragment>
-              )}
-
-              {userRole === 'Admin' && (
-                <React.Fragment>
-                  <td>
-                    <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
-                    <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
-                  </td>
-                </React.Fragment>
-              )}
+      {cursos.length > 0 ? (
+        <table className="table table-responsive" style={{ borderRadius: '15px' }}>
+          <thead>
+            <tr>
+              <th scope="col">Curso</th>
+              <th scope='col'>Faculdade</th>
+              <th scope='col'>Ano</th>
+              <th scope="col">Nota de corte</th>
+              <th scope='col'>Ações</th>
             </tr>
-          ))}
-
-        </tbody>
-      </table>) : (
+          </thead>
+          <tbody>
+            {cursosOrdenados.map((curso) => (
+              <tr key={curso.id}>
+                <td>{curso.nome}</td>
+                <td>{curso.faculdade}</td>
+                <td>{curso.ano}</td>
+                <td>{curso.notaDeCorte}</td>
+                {userRole === 'Cliente' && (
+                  <React.Fragment>
+                    <td><Link onClick={() => handleShow(curso)}>Sobre o curso</Link></td>
+                  </React.Fragment>
+                )}
+                {userRole === 'Admin' && (
+                  <React.Fragment>
+                    <td>
+                      <button className="btn btn-primary" onClick={() => handleEdit(curso.id)}><FaEdit /></button>
+                      <button className="btn btn-danger" onClick={() => handleDelete(curso.id)}><FaTrash /></button>
+                    </td>
+                  </React.Fragment>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
         <p className='text-danger'>Não há nenhum curso a ser exibido</p>
       )}
-
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{cursoInfo.nome}</Modal.Title>
@@ -198,8 +219,6 @@ const ListCursos = () => {
           ) : (
             <p>A descrição para este curso ainda não foi informada.</p>
           )}
-
-
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -207,10 +226,7 @@ const ListCursos = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-
-      <Modal show={showCadCurso} onHide={handleCloseCadCurso}> {/* Adicione este modal */}
+      <Modal show={showCadCurso} onHide={handleCloseCadCurso}>
         <Modal.Header closeButton>
           <Modal.Title>Cadastrar curso</Modal.Title>
         </Modal.Header>

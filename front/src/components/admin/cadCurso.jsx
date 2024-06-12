@@ -3,12 +3,16 @@
 import React, { useState } from 'react';
 import { api } from '../../services/api';
 import axios from 'axios';
+import ListCursos from './listCursos';
 
 function CoursoForm() {
     const [name, setName] = useState('');
     const [faculdade, setFaculdade] = useState('');
     const [descricao, setDescricao] = useState('')
+    const [ano, setAno] = useState('')
     const [cutoff, setCutoff] = useState('');
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,6 +23,7 @@ function CoursoForm() {
                 nome: name,
                 faculdade: faculdade,
                 notaDeCorte: parseFloat(cutoff), // Convert to a number if needed
+                ano: parseFloat(ano),
                 descricao: descricao
             }, {
                 headers: {
@@ -29,9 +34,10 @@ function CoursoForm() {
             setName('');
             setFaculdade('');
             setCutoff('');
+            setAno('');
             setDescricao('');
             console.log('Resposta da API:', response.data);
-            window.location.reload();
+            window.location.reload()
         } catch (error) {
             console.error('Erro ao enviar requisição:', error);
         }
@@ -60,11 +66,20 @@ function CoursoForm() {
                     <input
                         className='form-control'
                         type="number"
+                        placeholder="Ano"
+                        value={ano}
+                        onChange={(e) => setAno(e.target.value)}
+                    />
+                    <br />
+                    <input
+                        className='form-control'
+                        type="number"
                         placeholder="Nota de corte"
                         value={cutoff}
                         onChange={(e) => setCutoff(e.target.value)}
                     />
                     <br />
+
                     <textarea
                         className='form-control'
                         type="text"
