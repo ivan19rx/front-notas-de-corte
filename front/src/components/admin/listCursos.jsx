@@ -20,6 +20,8 @@ const ListCursos = () => {
   const [ano, setAno] = useState('');
   const [faculdades, setFaculdades] = useState([]);
   const [faculdade, setFaculdade] = useState('');
+  const [nomeCurso, setNomeCurso] = useState(''); // Novo estado para o filtro de nome de curso
+  const [cursoOpcoes, setCursoOpcoes] = useState([]); // Estado para armazenar as opções de curso
 
   useEffect(() => {
     ordenarCursos();
@@ -28,6 +30,7 @@ const ListCursos = () => {
   useEffect(() => {
     fetchCursos();
     fetchFaculdades();
+    fetchCursoOpcoes(); // Buscar as opções de curso
     const user = JSON.parse(localStorage.getItem('@Auth:user'));
     const role = user ? user.nivelacesso : null;
     setUserRole(role);
@@ -35,7 +38,7 @@ const ListCursos = () => {
 
   useEffect(() => {
     fetchCursos();
-  }, [pesquisa, ano, faculdade]); // Atualiza os cursos sempre que o termo de pesquisa, ano ou faculdade mudar
+  }, [pesquisa, ano, faculdade, nomeCurso]); // Atualiza os cursos sempre que o termo de pesquisa, ano, faculdade ou nome do curso mudar
 
   const ordenarCursos = () => {
     const cursosOrdenados = [...cursos];
@@ -61,6 +64,9 @@ const ListCursos = () => {
     }
     if (faculdade) {
       query += (pesquisa || ano) ? `&faculdade=${faculdade}` : `?faculdade=${faculdade}`;
+    }
+    if (nomeCurso) { // Adiciona o filtro por nome de curso à query string
+      query += (pesquisa || ano || faculdade) ? `&nome=${nomeCurso}` : `?nome=${nomeCurso}`;
     }
 
     api.get(`/list-cursos${query}`, {
@@ -99,6 +105,27 @@ const ListCursos = () => {
     })
     .catch(error => {
       console.error('Erro ao buscar faculdades:', error);
+    });
+  };
+
+  const fetchCursoOpcoes = () => { // Função para buscar as opções de curso
+    const token = localStorage.getItem("@Auth:token");
+
+    api.get('/cursos', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      const data = response.data;
+      if (!data.erro) {
+        setCursoOpcoes(data.data);
+      } else {
+        console.error(data.mensagem);
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao buscar opções de curso:', error);
     });
   };
 
@@ -172,6 +199,10 @@ const ListCursos = () => {
     setFaculdade(event.target.value);
   };
 
+  const handleNomeCursoChange = (event) => { // Função para lidar com a mudança no nome do curso
+    setNomeCurso(event.target.value);
+  };
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -206,6 +237,15 @@ const ListCursos = () => {
             <option value="">Sem filtros</option>
             {faculdades.map(fac => (
               <option key={fac.faculdade} value={fac.faculdade}>{fac.faculdade}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <span className='btn'>Filtrar por curso</span>
+          <select className='btn' value={nomeCurso} onChange={handleNomeCursoChange}>
+            <option value="">Sem filtros</option>
+            {cursoOpcoes.map(opcao => (
+              <option key={opcao.id} value={opcao.nome}>{opcao.nome}</option>
             ))}
           </select>
         </div>
