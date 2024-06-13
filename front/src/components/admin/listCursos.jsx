@@ -18,6 +18,8 @@ const ListCursos = () => {
   const [cursosOrdenados, setCursosOrdenados] = useState([]);
   const [pesquisa, setPesquisa] = useState('');
   const [ano, setAno] = useState('');
+  const [faculdades, setFaculdades] = useState([]);
+  const [faculdade, setFaculdade] = useState('');
 
   useEffect(() => {
     ordenarCursos();
@@ -25,6 +27,7 @@ const ListCursos = () => {
 
   useEffect(() => {
     fetchCursos();
+    fetchFaculdades();
     const user = JSON.parse(localStorage.getItem('@Auth:user'));
     const role = user ? user.nivelacesso : null;
     setUserRole(role);
@@ -32,7 +35,7 @@ const ListCursos = () => {
 
   useEffect(() => {
     fetchCursos();
-  }, [pesquisa, ano]); // Atualiza os cursos sempre que o termo de pesquisa ou ano mudar
+  }, [pesquisa, ano, faculdade]); // Atualiza os cursos sempre que o termo de pesquisa, ano ou faculdade mudar
 
   const ordenarCursos = () => {
     const cursosOrdenados = [...cursos];
@@ -56,6 +59,9 @@ const ListCursos = () => {
     if (ano) {
       query += pesquisa ? `&ano=${ano}` : `?ano=${ano}`;
     }
+    if (faculdade) {
+      query += (pesquisa || ano) ? `&faculdade=${faculdade}` : `?faculdade=${faculdade}`;
+    }
 
     api.get(`/list-cursos${query}`, {
       headers: {
@@ -72,6 +78,27 @@ const ListCursos = () => {
     })
     .catch(error => {
       console.error('Erro ao buscar dados:', error);
+    });
+  };
+
+  const fetchFaculdades = () => {
+    const token = localStorage.getItem("@Auth:token");
+
+    api.get('/faculdades', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      const data = response.data;
+      if (!data.erro) {
+        setFaculdades(data.data);
+      } else {
+        console.error(data.mensagem);
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao buscar faculdades:', error);
     });
   };
 
@@ -141,6 +168,10 @@ const ListCursos = () => {
     setAno(event.target.value);
   };
 
+  const handleFaculdadeChange = (event) => {
+    setFaculdade(event.target.value);
+  };
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -161,11 +192,20 @@ const ListCursos = () => {
           </select>
         </div>
         <div>
-          <span>Filtrar por ano</span>
+          <span className='btn'>Filtrar por ano</span>
           <select className='btn' value={ano} onChange={handleAnoChange}>
             <option value="">Sem filtros</option>
             {Array.from({ length: 14 }, (_, i) => 2010 + i).map(year => (
               <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <span className='btn'>Filtrar por faculdade</span>
+          <select className='btn' value={faculdade} onChange={handleFaculdadeChange}>
+            <option value="">Sem filtros</option>
+            {faculdades.map(fac => (
+              <option key={fac.faculdade} value={fac.faculdade}>{fac.faculdade}</option>
             ))}
           </select>
         </div>
