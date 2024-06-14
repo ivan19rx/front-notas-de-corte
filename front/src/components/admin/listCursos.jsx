@@ -217,6 +217,7 @@ const ListCursos = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         
         <div>
+        <span className='btn'>Filtrar por:</span>
           <select className='btn' value={ordenacao} onChange={handleOrdenacaoChange}>
             <option value="asc">Nota: menor para maior</option>
             <option value="desc">Nota: maior para menor</option>
