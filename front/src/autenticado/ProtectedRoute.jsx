@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { Navigate } from 'react-router-dom'
 import { AuthContext } from '../context/auth.jsx'
 
-const Autenticado = ({ children }) => {
+const ProtectedRoute = ({ children, redirectTo }) => {
     const { signed, loading } = useContext(AuthContext)
 
     if (loading) {
@@ -10,7 +10,7 @@ const Autenticado = ({ children }) => {
         return <div>Loading...</div>
     }
 
-    return signed ? children : <Navigate to="/login" />
+    return signed ? <Navigate to={redirectTo} /> : children
 }
 
-export default Autenticado
+export default ProtectedRoute

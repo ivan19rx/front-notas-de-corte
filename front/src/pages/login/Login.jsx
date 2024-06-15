@@ -37,9 +37,7 @@ const Login = () => {
     }
 
 
-    if (signed) {
-        return <Navigate to="/" />
-    } else {
+
 
 
 
@@ -83,6 +81,6 @@ const Login = () => {
             </>
         )
     }
-}
+
 
 export default Login
