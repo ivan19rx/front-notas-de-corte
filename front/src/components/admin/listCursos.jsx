@@ -74,17 +74,17 @@ const ListCursos = () => {
         Authorization: `Bearer ${token}`
       }
     })
-    .then(response => {
-      const data = response.data;
-      if (!data.erro) {
-        setCursos(data.data);
-      } else {
-        console.error(data.mensagem);
-      }
-    })
-    .catch(error => {
-      console.error('Erro ao buscar dados:', error);
-    });
+      .then(response => {
+        const data = response.data;
+        if (!data.erro) {
+          setCursos(data.data);
+        } else {
+          console.error(data.mensagem);
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao buscar dados:', error);
+      });
   };
 
   const fetchFaculdades = () => {
@@ -95,17 +95,17 @@ const ListCursos = () => {
         Authorization: `Bearer ${token}`
       }
     })
-    .then(response => {
-      const data = response.data;
-      if (!data.erro) {
-        setFaculdades(data.data);
-      } else {
-        console.error(data.mensagem);
-      }
-    })
-    .catch(error => {
-      console.error('Erro ao buscar faculdades:', error);
-    });
+      .then(response => {
+        const data = response.data;
+        if (!data.erro) {
+          setFaculdades(data.data);
+        } else {
+          console.error(data.mensagem);
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao buscar faculdades:', error);
+      });
   };
 
   const fetchCursoOpcoes = () => { // Função para buscar as opções de curso
@@ -116,17 +116,17 @@ const ListCursos = () => {
         Authorization: `Bearer ${token}`
       }
     })
-    .then(response => {
-      const data = response.data;
-      if (!data.erro) {
-        setCursoOpcoes(data.data);
-      } else {
-        console.error(data.mensagem);
-      }
-    })
-    .catch(error => {
-      console.error('Erro ao buscar opções de curso:', error);
-    });
+      .then(response => {
+        const data = response.data;
+        if (!data.erro) {
+          setCursoOpcoes(data.data);
+        } else {
+          console.error(data.mensagem);
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao buscar opções de curso:', error);
+      });
   };
 
   const handleEdit = (cursoId) => {
@@ -215,9 +215,9 @@ const ListCursos = () => {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        
+
         <div>
-        <span className='btn'>Filtrar por:</span>
+          <span className='btn'>Filtrar por:</span>
           <select className='btn' value={ordenacao} onChange={handleOrdenacaoChange}>
             <option value="asc">Nota: menor para maior</option>
             <option value="desc">Nota: maior para menor</option>
@@ -245,10 +245,11 @@ const ListCursos = () => {
           <span className='btn'>Filtrar por curso</span>
           <select className='btn' value={nomeCurso} onChange={handleNomeCursoChange}>
             <option value="">Sem filtros</option>
-            {cursoOpcoes.map(opcao => (
-              <option key={opcao.id} value={opcao.nome}>{opcao.nome}</option>
+            {cursoOpcoes.map((opcao, index) => (
+              <option key={`${opcao.id}-${index}`} value={opcao.nome}>{opcao.nome}</option>
             ))}
           </select>
+
         </div>
       </div>
 
