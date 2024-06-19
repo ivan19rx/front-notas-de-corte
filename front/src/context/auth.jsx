@@ -28,7 +28,11 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await api.post("/login", { email, senha })
             if (response.data.erro) {
-                alert("ocorreu algum erro")
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.data.msg,
+                })
             } else {
                 const { user, token } = response.data
                 setUser(user)
@@ -41,12 +45,6 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error)
-            const responseError = error.response?.data?.msg || "Erro desconhecido"
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: responseError,
-            })
         }
     }
 
