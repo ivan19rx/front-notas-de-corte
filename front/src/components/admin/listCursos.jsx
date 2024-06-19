@@ -15,6 +15,7 @@ const ListCursos = () => {
   const [cursoInfo, setCursoInfo] = useState({ nome: '', descricao: '' });
   const [showCadCurso, setShowCadCurso] = useState(false);
   const [ordenacao, setOrdenacao] = useState('asc');
+  const [ordenacaoAno, setOrdenacaoAno] = useState('asc'); // Estado para ordenação por ano
   const [cursosOrdenados, setCursosOrdenados] = useState([]);
   const [pesquisa, setPesquisa] = useState('');
   const [ano, setAno] = useState('');
@@ -25,7 +26,7 @@ const ListCursos = () => {
 
   useEffect(() => {
     ordenarCursos();
-  }, [cursos, ordenacao]);
+  }, [cursos, ordenacao, ordenacaoAno]);
 
   useEffect(() => {
     fetchCursos();
@@ -49,11 +50,24 @@ const ListCursos = () => {
         return cursoB.notaDeCorte - cursoA.notaDeCorte;
       }
     });
+
+    cursosOrdenados.sort((cursoA, cursoB) => {
+      if (ordenacaoAno === 'asc') {
+        return cursoA.ano - cursoB.ano;
+      } else {
+        return cursoB.ano - cursoA.ano;
+      }
+    });
+
     setCursosOrdenados(cursosOrdenados);
   };
 
   const handleOrdenacaoChange = (event) => {
     setOrdenacao(event.target.value);
+  };
+
+  const handleOrdenacaoAnoChange = (event) => {
+    setOrdenacaoAno(event.target.value);
   };
 
   const fetchCursos = () => {
@@ -230,6 +244,13 @@ const ListCursos = () => {
             {Array.from({ length: 14 }, (_, i) => 2010 + i).map(year => (
               <option key={year} value={year}>{year}</option>
             ))}
+          </select>
+        </div>
+        <div>
+          <span className='btn'>Ordenar por ano:</span>
+          <select className='btn' value={ordenacaoAno} onChange={handleOrdenacaoAnoChange}>
+            <option value="asc">mais antigo para mais atual</option>
+            <option value="desc">mais atual para mais antigo</option>
           </select>
         </div>
         <div>
