@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = new axios.create({
-    baseURL: "http://localhost:9090"
+    baseURL: "https://notas-de-corte.onrender.com"
 })

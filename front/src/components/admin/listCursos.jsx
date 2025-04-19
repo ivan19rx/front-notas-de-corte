@@ -223,7 +223,7 @@ const ListCursos = () => {
         <h4 className='mb-3'>Veja aqui os principais cursos e suas notas de cortes </h4>
         {userRole === 'Admin' && (
           <React.Fragment>
-            <button className='btn btn-success mb-4' onClick={handleShowCadCurso}>Novo</button>
+            <button className='btn btn-success mb-4' onClick={handleShowCadCurso}>Adicionar</button>
           </React.Fragment>
         )}
       </div>
